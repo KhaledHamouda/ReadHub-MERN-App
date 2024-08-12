@@ -45,6 +45,29 @@ route.post('/', (req, res) => {
         });
 });
 
+//Handle updating book
+route.put('/:id', async (req, res) => {
+    try {
+        const book_id = req.params.id;
+        const updateData = req.body
+        const targetBook = await Book.findByIdAndUpdate(book_id, updateData, {
+            new: true,
+            runValidators: true
+        });
+
+        if (!targetBook) {
+            return res.status(404).send('Book Not Found');
+        }
+
+        console.log(`Book of ID: ${targetBook._id} has been Updated!`);
+        res.json(targetBook);
+
+    } catch (e) {
+        console.log(e.message);
+        res.status(500).send('Failed to Update the book!');
+    }
+});
+
 // Handle deleting books
 route.delete('/:id', async (req, res) => {
     try {
