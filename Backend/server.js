@@ -1,6 +1,7 @@
 const express = require('express');
 require('dotenv').config()
 connectDb = require('./config/dbConnection')
+const userRoutes = require('./routes/userRouter');
 
 // Mongoose connection
 connectDb()
@@ -13,6 +14,9 @@ app.get('/', (req, res)=>{
 
 // Api routes and middlewares.
 app.use(express.json());
+
+app.use('/users', userRoutes);
+
 
 const port = process.env.PORT || 3100;
 const host = process.env.HOST || 'localhost';
