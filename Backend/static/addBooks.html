@@ -1,0 +1,32 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>addingbook</title>
+</head>
+<style>
+    input{
+        padding: 0.4rem;
+        border: 1px solid blueviolet;
+        outline: none;
+    }
+    button{
+        padding: 0.4rem;
+        background-color: cadetblue;
+        color: blanchedalmond;
+        border: 1px solid brown;
+        border-radius: 10px;
+    }
+</style>
+
+<body>
+    <form action="/books" method="POST" style="margin: auto;">
+            <input type="text" name="photo" placeholder="photo" required>
+            <input type="text" name="title" placeholder="title" required>
+            <input type="text" name="categoryId" placeholder="categoryId" required>
+            <input type="text" name="authorId" placeholder="authorId" required>
+            <button type="submit"> Post This Book</button>
+            
+    </form>
+</body>
+</html>
