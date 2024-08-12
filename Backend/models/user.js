@@ -10,7 +10,6 @@ const usersSchema = new mongoose.Schema({
     email:{type: String , unique:true,required:true, match:/.+@.+\.+/},
     password:{type: String , required: true},
     admin:{type:Boolean , required:true},
-    
 })
 
 // Method to generate a JWT
