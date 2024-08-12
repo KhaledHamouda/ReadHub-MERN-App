@@ -3,10 +3,11 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser')
 const Book = require('./models/Book');
-const booksRoute = require('./routes/books');
+const booksRoute = require('./routes/bookRouter');
+const userRoutes = require('./routes/userRouter');
 
 connectDb = require('./config/dbConnection')
-const userRoutes = require('./routes/userRouter');
+
 
 // Mongoose connection
 connectDb()
