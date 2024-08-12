@@ -20,6 +20,9 @@ app.use(express.json());
 // Use the books route
 app.use('/books', booksRoute); 
 
+// Use user route
+app.use('/users', userRoutes);
+
 app.get('/',(req, res)=>{
   res.send('Hello To goodreads APP !!');
 })
