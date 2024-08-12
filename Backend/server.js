@@ -1,8 +1,5 @@
 require('dotenv').config()
 const express = require('express');
-const path = require('path');
-const bodyParser = require('body-parser')
-const Book = require('./models/Book');
 const booksRoute = require('./routes/bookRouter');
 const userRoutes = require('./routes/userRouter');
 
