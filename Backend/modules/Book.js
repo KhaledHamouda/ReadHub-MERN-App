@@ -10,11 +10,11 @@ const bookSchema = new mongoose.Schema({
         required: true
     },
     categoryId: {
-        type: Number,
-        required: true
+        type: mongoose.SchemaTypes.ObjectId,
+        required: true,
     },
     authorId: {
-        type: Number,
+        type: mongoose.SchemaTypes.ObjectId,
         required: true
     },
 })
