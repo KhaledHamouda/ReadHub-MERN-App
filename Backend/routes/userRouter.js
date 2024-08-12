@@ -7,9 +7,9 @@ const {authSignup} = require('../controllers/validateData')
 
 // Get all users (restricted to admin)
 router.get('/', async (req, res) => {
-    // if (!req.isAdmin) {
-    //     return res.status(403).json({ error: 'Access denied' });
-    // }
+    if (!req.isAdmin) {
+        return res.status(403).json({ error: 'Access denied' });
+    }
     try {
         const users = await User.find({});
         res.json(users);
