@@ -4,7 +4,7 @@ const Author = require("../models/author");
 const route = express.Router();
 
 // Author post
-route.post("/author", async (req, res) => {
+route.post("/", async (req, res) => {
   const { authorFirstName, authorLastName, authorDateOfBirth } = req.body;
 
   if (!authorFirstName) {
@@ -35,13 +35,13 @@ route.post("/author", async (req, res) => {
 });
 
 // Get the data of all author DB
-route.get("/author", async (req, res) => {
+route.get("/", async (req, res) => {
   const authors = await Author.find();
   res.json(authors);
 });
 
 // Get author by id
-route.get("/author/:id", async (req, res) => {
+route.get("/:id", async (req, res) => {
   const id = req.params.id;
   try {
     const author = await Author.findOne({ authorId: id });
@@ -57,7 +57,7 @@ route.get("/author/:id", async (req, res) => {
 });
 
 // Delete author by id
-route.delete("/author/:id", async (req, res) => {
+route.delete("/:id", async (req, res) => {
   const id = req.params.id;
   try {
     const deletedAuthor = await Author.findOneAndDelete({ authorId: id });
@@ -73,7 +73,7 @@ route.delete("/author/:id", async (req, res) => {
 });
 
 // Delete all authors
-route.delete("/author", async (req, res) => {
+route.delete("/", async (req, res) => {
   try {
     const result = await Author.deleteMany({});
     res.json({

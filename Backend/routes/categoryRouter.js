@@ -4,7 +4,7 @@ const Category = require("../models/category");
 const route = express.Router();
 
 // Category post
-route.post("/cat", async (req, res) => {
+route.post("/", async (req, res) => {
   const { categoryName } = req.body;
 
   if (!categoryName) {
@@ -33,13 +33,13 @@ route.post("/cat", async (req, res) => {
 });
 
 // Get the data of all category DB
-route.get("/cat", async (req, res) => {
+route.get("/", async (req, res) => {
   const categories = await Category.find();
   res.json(categories);
 });
 
 // Get category by id
-route.get("/cat/:id", async (req, res) => {
+route.get("/:id", async (req, res) => {
   const id = req.params.id;
   try {
     const category = await Category.findOne({ categoryId: id });
@@ -55,7 +55,7 @@ route.get("/cat/:id", async (req, res) => {
 });
 
 // Delete category by id
-route.delete("/cat/:id", async (req, res) => {
+route.delete("/:id", async (req, res) => {
   const id = req.params.id;
   try {
     const deletedCategory = await Category.findOneAndDelete({ categoryId: id });
@@ -71,7 +71,7 @@ route.delete("/cat/:id", async (req, res) => {
 });
 
 // Delete all categories
-route.delete("/cat", async (req, res) => {
+route.delete("/", async (req, res) => {
   try {
     const result = await Category.deleteMany({});
     res.json({

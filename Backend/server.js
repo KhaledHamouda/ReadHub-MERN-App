@@ -23,8 +23,8 @@ app.use("/books", booksRoute);
 app.use("/users", userRoutes);
 
 // Use author and category
-app.use("/", authorRoutes);
-app.use("/", categoryRoutes);
+app.use("/authors", authorRoutes);
+app.use("/categories", categoryRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello To goodreads APP !!");
