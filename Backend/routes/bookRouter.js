@@ -1,6 +1,8 @@
 const express = require('express')
 const route  = express.Router()
 const Book = require('../models/Book');
+const Category = require("../models/category");
+const Author = require("../models/author");
 
 // Handle display all books 
 route.get('/', async(req, res) => {
@@ -27,22 +29,40 @@ route.get('/:id', async(req, res) => {
 
 // Handle adding books
 route.post('/', (req, res) => {
-    const book = new Book({
-        photo: req.body.photo,
-        title: req.body.title,
-        categoryId: req.body.categoryId,
-        authorId: req.body.authorId,
+    const catName = req.query.categoryName
+    const authName = req.query.authorName.split(" ");
+    const authFirstName = authName[0];
+    const authSecondName = authName[1];
+    // fetch ids from DB
+    Category.where('categoryName').equals(catName).select('_id')
+    .then(catId => {
+        // Ensure that `catId` is resolved before proceeding
+        return Author.where('authorFirstName').equals(authFirstName)
+            .where('authorLastName').equals(authSecondName)
+            .select('_id')
+            .then(authId => {
+                // Create and log the new book instance
+                const book = new Book({
+                    photo: req.query.photo,
+                    title: req.query.title,
+                    categoryId: catId[0],
+                    authorId: authId[0]
+                });
+                book.save()
+                    .then(() => {
+                        console.log('Book Successfully Added!');
+                        res.redirect('/books');
+                    })
+                    .catch(e => {
+                        console.log(e.message);
+                        res.status(400).send('Failed to add book');
+                    });
+            });
+    })
+    .catch(err => {
+        console.error('Error:', err);
     });
-
-    book.save()
-        .then(() => {
-            console.log('Book Successfully Added!');
-            res.redirect('/books');
-        })
-        .catch(e => {
-            console.log(e.message);
-            res.status(400).send('Failed to add book');
-        });
+    
 });
 
 //Handle updating book
