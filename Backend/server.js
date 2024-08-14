@@ -4,7 +4,8 @@ const booksRoute = require("./routes/bookRouter");
 const userRoutes = require("./routes/userRouter");
 const authorRoutes = require("./routes/authorRouter");
 const categoryRoutes = require("./routes/categoryRouter");
-const cors = require('cors')
+const userBookRoutes = require("./routes/userBookRouter");
+const cors = require("cors");
 
 connectDb = require("./config/dbConnection");
 
@@ -27,6 +28,9 @@ app.use("/users", userRoutes);
 // Use author and category
 app.use("/authors", authorRoutes);
 app.use("/categories", categoryRoutes);
+
+// Use the userBook routes
+app.use("/userbook", userBookRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello To goodreads APP !!");
