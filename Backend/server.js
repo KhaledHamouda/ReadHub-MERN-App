@@ -4,6 +4,7 @@ const booksRoute = require("./routes/bookRouter");
 const userRoutes = require("./routes/userRouter");
 const authorRoutes = require("./routes/authorRouter");
 const categoryRoutes = require("./routes/categoryRouter");
+const cors = require('cors')
 
 connectDb = require("./config/dbConnection");
 
@@ -14,6 +15,7 @@ connectDb();
 const app = express();
 
 // Middleware to parse JSON bodies
+app.use(cors());
 app.use(express.json());
 
 // Use the books route
