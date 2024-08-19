@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import { AdminLogin } from './components/Admin/LoginAdmin';
 import { AdminPanel } from './components/Admin/AdminPanal';
 import Home from './pages/Home';
-import "./App.css";
 import BookList from "./components/Book/BookList";
 import AuthorList from "./components/Author/AuthorList";
 
