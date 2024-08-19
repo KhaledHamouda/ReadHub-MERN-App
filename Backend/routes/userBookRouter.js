@@ -10,6 +10,26 @@ const findOrCreateUserBook = async (userId, bookId) => {
   return userBook;
 };
 
+// Handle retrieving a specific book's user data
+router.get("/:userId/books", async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { bookId } = req.query;
+    const userBook = await UserBook.findOne({ userId, bookId }).populate(
+      "bookId"
+    );
+
+    if (!userBook) {
+      return res.status(404).json({ message: "UserBook not found" });
+    }
+
+    res.status(200).json(userBook);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Failed to retrieve user book");
+  }
+});
+
 // Handle updating or adding a user's book state
 router.post("/state", async (req, res) => {
   try {
