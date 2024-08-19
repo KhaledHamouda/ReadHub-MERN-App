@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import './App.css';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { AdminLogin } from './components/Admin/LoginAdmin';
 import { AdminPanel } from './components/Admin/AdminPanal';
+import Home from './pages/Home';
 
 function App() {
   const [isAdmin, setIsAdmin] = useState<boolean>(() => {
@@ -18,6 +18,8 @@ function App() {
 
     <Router>
       <Routes>
+        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<Home />} />
         <Route path="/admin" element={<AdminLogin onLoginSuccess={handleLoginSuccess} />} />
         <Route path="/admin/category" element={isAdmin ? <AdminPanel /> : <Navigate to="/admin/login" />} />
       </Routes>

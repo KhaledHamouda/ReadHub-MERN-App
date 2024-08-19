@@ -1,0 +1,191 @@
+.Container {
+    width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    overflow: hidden;
+    background-color: var(--background-color);
+    color: var(--text-color);
+  }
+  
+  .Container .wrapper {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -webkit-box-align: start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+    max-width: 1240px;
+    margin: auto;
+    width: 100%;
+    padding: 0 15px;
+  }
+  
+  @media screen and (max-width: 600px) {
+    .Container .wrapper {
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+              flex-direction: column;
+    }
+  }
+  
+  .Container .wrapper .title {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .Container .wrapper .left {
+    -webkit-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    padding: 20px 0;
+  }
+  
+  .Container .wrapper .left .logo {
+    font-size: 2rem;
+    font-family: cursive;
+    color: #088178;
+    font-weight: 600;
+  }
+  
+  .Container .wrapper .left .desc {
+    margin: 20px 0px;
+  }
+  
+  .Container .wrapper .left .socailContainer {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  
+  .Container .wrapper .left .socailContainer .socailIcon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: white;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    margin-right: 20px;
+    background-color: red;
+  }
+  
+  .Container .wrapper .center {
+    -webkit-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+    padding: 20px 20px 20px 15%;
+  }
+  
+  @media screen and (max-width: 380px) {
+    .Container .wrapper .center {
+      display: none;
+    }
+  }
+  
+  .Container .wrapper .center .List {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+  }
+  
+  .Container .wrapper .center .List .listItem {
+    width: 100%;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+  
+  .Container .wrapper .right {
+    -webkit-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+    padding: 20px;
+  }
+  
+  .Container .wrapper .right .ContactItem {
+    margin-bottom: 20px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  
+  .Container .wrapper .right .ContactItem a {
+    text-decoration: none;
+    font-size: medium;
+    color: inherit;
+  }
+  
+  .Container .lowerFotter {
+    height: 40px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    row-gap: 15px;
+    padding: 15px 15px 50px 15px;
+    border-top: 1px solid #eee;
+    max-width: 1240px;
+    width: 100%;
+    margin: auto;
+  }
+  
+  @media screen and (max-width: 992px) {
+    .Container .lowerFotter {
+      padding: 15px 15px 60px 15px;
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    .Container .lowerFotter {
+      padding: 15px 15px 60px 15px;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .Container .lowerFotter {
+      padding: 15px 15px 100px 15px;
+    }
+  }
+  
+  .Container .lowerFotter a {
+    color: green;
+    font-weight: bold;
+    text-decoration: none;
+    color: inherit;
+  }
