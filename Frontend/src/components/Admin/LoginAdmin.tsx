@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './loginAdmin.css';
-import axios from 'axios';
+import axios from '../../axios';
 
 interface AdminLoginProps {
   onLoginSuccess: (admin: boolean, token: string) => void;
@@ -12,7 +12,7 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    axios.post('http://localhost:3100/users/login', { email, password })
+    axios.post('/users/login', { email, password })
       .then((res) => {
         const { admin, token } = res.data;
         if (admin) {

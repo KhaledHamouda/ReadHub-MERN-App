@@ -1,0 +1,12 @@
+.container {
+    width: 100%;
+  height: calc(100vh - 70vh);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  }

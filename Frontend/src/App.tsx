@@ -1,13 +1,9 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { AdminLogin } from './components/Admin/LoginAdmin';
+import { AdminPanel } from './components/Admin/AdminPanal';
+import Home from './pages/Home';
 import "./App.css";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-} from "react-router-dom";
-import { AdminLogin } from "./components/Admin/LoginAdmin";
-import { AdminPanel } from "./components/Admin/AdminPanal";
 import BookList from "./components/Book/BookList";
 import AuthorList from "./components/Author/AuthorList";
 
@@ -24,6 +20,10 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/admin" element={<AdminLogin onLoginSuccess={handleLoginSuccess} />} />
+        <Route path="/admin/category" element={isAdmin ? <AdminPanel /> : <Navigate to="/admin/login" />} />
         <Route
           path="/admin"
           element={<AdminLogin onLoginSuccess={handleLoginSuccess} />}
