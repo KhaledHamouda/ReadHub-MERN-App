@@ -9,6 +9,7 @@ import {
 import { AdminLogin } from "./components/Admin/LoginAdmin";
 import { AdminPanel } from "./components/Admin/AdminPanal";
 import BookList from "./components/Book/BookList";
+import AuthorList from "./components/Author/AuthorList";
 
 function App() {
   const [isAdmin, setIsAdmin] = useState<boolean>(() => {
@@ -32,6 +33,7 @@ function App() {
           element={isAdmin ? <AdminPanel /> : <Navigate to="/admin/login" />}
         />
         <Route path="/books" element={<BookList />} />
+        <Route path="/authors" element={<AuthorList />} />
       </Routes>
     </Router>
   );
