@@ -1,0 +1,148 @@
+.container {
+    width: 100%;
+    height: 90vh;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    justify-items: center;
+  }
+  
+  @media screen and (max-width: 992px) {
+    .container {
+      height: 50vh;
+    }
+  }
+  
+  @media screen and (max-width: 786px) {
+    .container {
+      height: 55vh;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .container {
+      height: 40vh;
+    }
+  }
+  
+  .vd {
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+    -o-object-fit: cover;
+    filter: blur(2px);
+    -webkit-filter: blur(2px);
+  }
+  
+  .maindiv {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+    z-index: 2;
+    background-color: rgba(0, 0, 0, 0.5);
+    font-family: 'Oswald', sans-serif;
+    padding: 0px 10px;
+    border-radius: 20px;
+    max-width: 80%;
+  }
+  
+  @media screen and (max-width: 992px) {
+    .maindiv {
+      top: 45%;
+    }
+  }
+  
+  @media screen and (max-width: 786px) {
+    .maindiv {
+      top: 45%;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .maindiv {
+      top: 40%;
+    }
+  }
+  
+  .maindiv .maintxt {
+    color: rgba(237, 202, 18, 0.9);
+    font-size: 48px;
+    font-weight: 700;
+  }
+  
+  @media screen and (max-width: 786px) {
+    .maindiv .maintxt {
+      font-size: 30px;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .maindiv .maintxt {
+      font-size: 20px;
+    }
+  }
+  
+  .maindiv .mainp {
+    text-align: left;
+    font-size: 25px;
+    font-weight: 300;
+    padding-left: 30px;
+    color: #fff;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-self: flex-start;
+  }
+  
+  @media screen and (max-width: 786px) {
+    .maindiv .mainp {
+      font-size: 15px;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .maindiv .mainp {
+      font-size: 10px;
+    }
+  }
+  
+  .maindiv .mainbtn {
+    border-radius: 20px;
+    background-color: #01BF71;
+    padding: 14px 48px;
+    color: #fff;
+    outline: none;
+    border: none;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    margin-bottom: 20px;
+  }
+  
+  .maindiv .mainbtn:hover {
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    background-color: rgb(59, 59, 194);
+  }
+  
+  .maindiv .mainbtn .mainicon {
+    font-size: 20px;
+  }
+  
+  @media screen and (max-width: 786px) {
+    .maindiv .mainbtn .mainicon {
+      font-size: 10px;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .maindiv .mainbtn .mainicon {
+      font-size: 7px;
+    }
+  }
