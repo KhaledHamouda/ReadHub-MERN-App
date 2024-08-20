@@ -78,8 +78,9 @@ const Navbar: React.FC = () => {
   const handleDrawerNavigate = (page: string) => {
     setAnchorElUser(null);
     setOpen(false);
-    page = page.toLowerCase();
-    if (page === 'profile') {
+    if (page.toLowerCase() === 'login') {
+      navigate('/login'); // Update to your sign-in route
+    } else if (page === 'profile') {
       navigate(`/${page}/${sessionStorage.getItem("id")}`);
     } else if (page === 'logout') {
       dispatch(setloginState(false));
@@ -90,16 +91,16 @@ const Navbar: React.FC = () => {
       navigate("/");
       scrollToSection("Home");
     } else {
-      navigate(`/${page}`);
+      navigate(`/${page.toLowerCase()}`);
     }
   };
 
   const { openSearchDialog } = useSelector((state: any) => state.DataReducer);
 
   const scrollToSection = (page: string) => {
-    if (document.location.href !== "http://localhost:3001/") {
-      navigate("/");
-    }
+    // if (document.location.href !== "http://localhost:3100/") {
+    //   navigate("/");
+    // }
     page = page === "Home" ? "topPage" : page;
     scroller.scrollTo(page, {
       duration: 500,
@@ -211,7 +212,7 @@ const Navbar: React.FC = () => {
             >
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={() => handleDrawerNavigate(setting)}>
-                  <Typography textAlign="center">{setting}</Typography>
+                  <Typography style={{ color: theme.palette.mode === "light" ? "black" : "white" }} textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -243,16 +244,16 @@ const Navbar: React.FC = () => {
           <Divider />
           <List>
             {["Home", "Books", "Categories", "Authors"].map((text, index) => (
-              <ListItem button key={text}>
+              <ListItem button key={text} onClick={() => handleDrawerClose(text)}>
                 <ListItemIcon>
                   {index === 0 ? (
-                    <HomeIcon onClick={() => handleDrawerClose("Home")} />
+                    <HomeIcon />
                   ) : index === 1 ? (
-                    <MenuBookIcon onClick={() => handleDrawerClose("Books")} />
+                    <MenuBookIcon />
                   ) : index === 2 ? (
-                    <ClassIcon onClick={() => handleDrawerClose("Categories")} />
+                    <ClassIcon />
                   ) : index === 3 ? (
-                    <AccountCircleIcon onClick={() => handleDrawerClose("Authors")} />
+                    <AccountCircleIcon />
                   ) : null}
                 </ListItemIcon>
                 <ListItemText primary={text} />
@@ -271,14 +272,14 @@ const Navbar: React.FC = () => {
               <ListItemText primary="Mode" />
             </ListItem>
 
-            <ListItem button key="User">
+            <ListItem button key="User" onClick={() => handleDrawerNavigate('profile')}>
               <ListItemIcon>
                 <AccountCircleIcon />
               </ListItemIcon>
               <ListItemText primary="User" />
             </ListItem>
 
-            <ListItem button key="Logout">
+            <ListItem button key="Logout" onClick={() => handleDrawerNavigate('logout')}>
               <ListItemIcon>
                 <LogoutIcon />
               </ListItemIcon>
