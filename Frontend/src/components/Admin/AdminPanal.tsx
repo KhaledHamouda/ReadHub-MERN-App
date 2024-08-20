@@ -8,9 +8,9 @@ export const AdminPanel: React.FC = () => {
             <h1>Admin Panel</h1>
             <nav>
                 <ul>
-                    <li><Link to="categories">Manage Categories</Link></li>
-                    <li><Link to="books">Manage Books</Link></li>
-                    <li><Link to="authors">Manage Authors</Link></li>
+                    <li><Link to="categories"> Categories</Link></li>
+                    <li><Link to="books"> Books</Link></li>
+                    <li><Link to="authors"> Authors</Link></li>
                 </ul>
             </nav>
             <div>

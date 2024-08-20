@@ -1,6 +1,12 @@
 const mongoose = require('mongoose')
+const AutoIncrement = require("mongoose-sequence")(mongoose);
 
 const bookSchema = new mongoose.Schema({
+    idShow: { 
+        type: Number, 
+        unique: true, 
+        required: false 
+    },
     photo: {
         type: String,
         required: true
@@ -15,9 +21,18 @@ const bookSchema = new mongoose.Schema({
     },
     authorId: {
         type: mongoose.SchemaTypes.ObjectId,
-        required: true
+        required: true,
     },
-})
+    categoryShow: {
+        type: String,
+        required: true,
+    },
+    authorShow: {
+        type: String,
+        required: true
+    }
+});
+bookSchema.plugin(AutoIncrement, { inc_field: "idShow" });
 
 module.exports = mongoose.model('Book', bookSchema)
 

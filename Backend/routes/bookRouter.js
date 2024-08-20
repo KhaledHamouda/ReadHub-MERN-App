@@ -34,19 +34,21 @@ route.post('/', (req, res) => {
     const authFirstName = authName[0];
     const authSecondName = authName[1];
     // fetch ids from DB
-    Category.where('categoryName').equals(catName).select('_id')
-    .then(catId => {
+    Category.where('categoryName').equals(catName).select('_id categoryId')
+    .then(cat => {
         // Ensure that `catId` is resolved before proceeding
         return Author.where('authorFirstName').equals(authFirstName)
             .where('authorLastName').equals(authSecondName)
-            .select('_id')
-            .then(authId => {
+            .select('_id authorId')
+            .then(auth=> {
                 // Create and log the new book instance
                 const book = new Book({
                     photo: req.query.photo,
                     title: req.query.title,
-                    categoryId: catId[0],
-                    authorId: authId[0]
+                    categoryId: cat[0]._id,
+                    categoryShow: cat[0].categoryId,
+                    authorShow: auth[0].authorId,
+                    authorId: auth[0]._id
                 });
                 book.save()
                     .then(() => {
@@ -70,6 +72,7 @@ route.put('/:id', async (req, res) => {
     try {
         const book_id = req.params.id;
         const updateData = req.body
+        console.log(req.body.categoryId);
         const targetBook = await Book.findByIdAndUpdate(book_id, updateData, {
             new: true,
             runValidators: true
@@ -98,7 +101,7 @@ route.delete('/:id', async (req, res) => {
             return res.status(404).send('Book Not Found');
         }
         console.log(`Book of ID: ${targetBook._id} has been deleted!`);
-        res.redirect('/books');
+        res.status(200).json({ message: 'Book deleted successfully' });
 
     } catch (e) {
         console.log(e.message);
