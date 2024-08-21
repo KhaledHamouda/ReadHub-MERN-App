@@ -2,21 +2,10 @@ import React from "react";
 import styles from "./hero.module.css";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Button } from "@mui/material";
-import { scroller } from "react-scroll/modules";
-
-// Define the type for the page parameter
-type ScrollToSection = (page: string) => void;
+import { useNavigate } from 'react-router-dom';
 
 const Hero: React.FC = () => {
-  // Go to section after clicking an item from the menu in the navbar
-  const scrollToSection: ScrollToSection = (page) => {
-    scroller.scrollTo(page, {
-      duration: 500,
-      delay: 0,
-      offset: -70,
-      smooth: "easeInOutQuart",
-    });
-  };
+  const navigate = useNavigate();
 
   return (
     <div className={`${styles.container} Home topPage`}>
@@ -34,7 +23,7 @@ const Hero: React.FC = () => {
         Discover Your Next Favorite Book: Browse Our Extensive Collection of Curated Reads and Uncover Hidden Gems That Will Captivate Your Imagination and Enrich Your Mind.
         </p>
         <Button
-          onClick={() => scrollToSection("Books")}
+          onClick={() => navigate('/signup')}
           className={styles.mainbtn}
         >
           Get Started <ArrowForwardIosIcon className={styles.mainicon} />
