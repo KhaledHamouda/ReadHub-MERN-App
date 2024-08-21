@@ -1,8 +1,17 @@
-
 // AdminPanel.tsx
-import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
-import { Container, Row, Col, Button, Form, FormGroup, Label, Input, Table } from 'reactstrap';
-import axiosInstance from '../../axios';
+import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Table,
+} from "reactstrap";
+import axiosInstance from "../../axios";
 interface Category {
   _id: string;
   categoryName: string;
@@ -29,14 +38,14 @@ export const AdminPanel: React.FC = () => {
   const [books, setBooks] = useState<Book[]>([]);
 
   // State for holding input values
-  const [categoryName, setCategoryName] = useState<string>('');
-  const [authorFirstName, setAuthorFirstName] = useState<string>('');
-  const [authorLastName, setAuthorLastName] = useState<string>('');
-  const [authorDateOfBirth, setAuthorDateOfBirth] = useState<string>('');
-  const [bookTitle, setBookTitle] = useState<string>('');
-  const [bookAuthorId, setBookAuthorId] = useState<string>('');
-  const [bookCategoryId, setBookCategoryId] = useState<string>('');
-  const [bookPhoto, setBookPhoto] = useState<string>('');
+  const [categoryName, setCategoryName] = useState<string>("");
+  const [authorFirstName, setAuthorFirstName] = useState<string>("");
+  const [authorLastName, setAuthorLastName] = useState<string>("");
+  const [authorDateOfBirth, setAuthorDateOfBirth] = useState<string>("");
+  const [bookTitle, setBookTitle] = useState<string>("");
+  const [bookAuthorId, setBookAuthorId] = useState<string>("");
+  const [bookCategoryId, setBookCategoryId] = useState<string>("");
+  const [bookPhoto, setBookPhoto] = useState<string>("");
 
   // Fetch data from backend API
   useEffect(() => {
@@ -45,90 +54,112 @@ export const AdminPanel: React.FC = () => {
 
   const fetchData = async () => {
     try {
-      const [categoriesResponse, authorsResponse, booksResponse] = await Promise.all([
-        axiosInstance.get('/categories'),
-        axiosInstance.get('/authors'),
-        axiosInstance.get('/books'),
-      ]);
+      const [categoriesResponse, authorsResponse, booksResponse] =
+        await Promise.all([
+          axiosInstance.get("/categories"),
+          axiosInstance.get("/authors"),
+          axiosInstance.get("/books"),
+        ]);
 
       setCategories(categoriesResponse.data);
       setAuthors(authorsResponse.data);
       setBooks(booksResponse.data);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
     }
   };
 
   const handleAddCategory = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const response = await axiosInstance.post('/categories', { categoryName });
+      const response = await axiosInstance.post("/categories", {
+        categoryName,
+      });
       setCategories([...categories, response.data]);
-      setCategoryName('');
+      setCategoryName("");
     } catch (error) {
-      console.error('Error adding category:', error);
+      console.error("Error adding category:", error);
     }
   };
 
   const handleAddAuthor = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const response = await axiosInstance.post('/authors', {
+      const response = await axiosInstance.post("/authors", {
         authorFirstName,
         authorLastName,
         authorDateOfBirth,
       });
       setAuthors([...authors, response.data]);
-      setAuthorFirstName('');
-      setAuthorLastName('');
-      setAuthorDateOfBirth('');
+      setAuthorFirstName("");
+      setAuthorLastName("");
+      setAuthorDateOfBirth("");
     } catch (error) {
-      console.error('Error adding author:', error);
+      console.error("Error adding author:", error);
     }
   };
 
   const handleAddBook = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const response = await axiosInstance.post('/books', {
+      const response = await axiosInstance.post("/books", {
         title: bookTitle,
         photo: bookPhoto,
         authorId: bookAuthorId,
         categoryId: bookCategoryId,
       });
       setBooks([...books, response.data]);
-      setBookTitle('');
-      setBookPhoto('');
-      setBookAuthorId('');
-      setBookCategoryId('');
+      setBookTitle("");
+      setBookPhoto("");
+      setBookAuthorId("");
+      setBookCategoryId("");
     } catch (error) {
-      console.error('Error adding book:', error);
+      console.error("Error adding book:", error);
     }
   };
 
   const handleUpdateCategory = async (id: string, name: string) => {
     try {
-      const response = await axiosInstance.put(`/categories/${id}`, { categoryName: name });
-      setCategories(categories.map(category => category._id === id ? response.data : category));
+      const response = await axiosInstance.put(`/categories/${id}`, {
+        categoryName: name,
+      });
+      setCategories(
+        categories.map((category) =>
+          category._id === id ? response.data : category
+        )
+      );
     } catch (error) {
-      console.error('Error updating category:', error);
+      console.error("Error updating category:", error);
     }
   };
 
-  const handleUpdateAuthor = async (id: string, firstName: string, lastName: string, dob?: string) => {
+  const handleUpdateAuthor = async (
+    id: string,
+    firstName: string,
+    lastName: string,
+    dob?: string
+  ) => {
     try {
       const response = await axiosInstance.put(`/authors/${id}`, {
         authorFirstName: firstName,
         authorLastName: lastName,
         authorDateOfBirth: dob,
       });
-      setAuthors(authors.map(author => author._id === id ? response.data : author));
+      setAuthors(
+        authors.map((author) => (author._id === id ? response.data : author))
+      );
     } catch (error) {
-      console.error('Error updating author:', error);
+      console.error("Error updating author:", error);
     }
   };
 
-  const handleUpdateBook = async (id: string, title: string, authorId: string, categoryId: string, photo?: string) => {
+  const handleUpdateBook = async (
+    id: string,
+    title: string,
+    authorId: string,
+    categoryId: string,
+    photo?: string
+  ) => {
     try {
       const response = await axiosInstance.put(`/books/${id}`, {
         title,
@@ -136,43 +167,43 @@ export const AdminPanel: React.FC = () => {
         authorId,
         categoryId,
       });
-      setBooks(books.map(book => book._id === id ? response.data : book));
+      setBooks(books.map((book) => (book._id === id ? response.data : book)));
     } catch (error) {
-      console.error('Error updating book:', error);
+      console.error("Error updating book:", error);
     }
   };
 
   const handleDeleteCategory = async (id: string) => {
     try {
       await axiosInstance.delete(`/categories/${id}`);
-      setCategories(categories.filter(category => category._id !== id));
+      setCategories(categories.filter((category) => category._id !== id));
     } catch (error) {
-      console.error('Error deleting category:', error);
+      console.error("Error deleting category:", error);
     }
   };
 
   const handleDeleteAuthor = async (id: string) => {
     try {
       await axiosInstance.delete(`/authors/${id}`);
-      setAuthors(authors.filter(author => author._id !== id));
+      setAuthors(authors.filter((author) => author._id !== id));
     } catch (error) {
-      console.error('Error deleting author:', error);
+      console.error("Error deleting author:", error);
     }
   };
 
   const handleDeleteBook = async (id: string) => {
     try {
       await axiosInstance.delete(`/books/${id}`);
-      setBooks(books.filter(book => book._id !== id));
+      setBooks(books.filter((book) => book._id !== id));
     } catch (error) {
-      console.error('Error deleting book:', error);
+      console.error("Error deleting book:", error);
     }
   };
 
   return (
     <Container>
       <h1>Admin Panel</h1>
-      
+
       <Row>
         <Col>
           <h2>Add Category</h2>
@@ -184,13 +215,17 @@ export const AdminPanel: React.FC = () => {
                 name="categoryName"
                 id="categoryName"
                 value={categoryName}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => setCategoryName(e.target.value)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setCategoryName(e.target.value)
+                }
               />
             </FormGroup>
-            <Button type="submit" color="primary">Add Category</Button>
+            <Button type="submit" color="primary">
+              Add Category
+            </Button>
           </Form>
         </Col>
-        
+
         <Col>
           <h2>Add Author</h2>
           <Form onSubmit={handleAddAuthor}>
@@ -201,7 +236,9 @@ export const AdminPanel: React.FC = () => {
                 name="authorFirstName"
                 id="authorFirstName"
                 value={authorFirstName}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => setAuthorFirstName(e.target.value)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setAuthorFirstName(e.target.value)
+                }
               />
             </FormGroup>
             <FormGroup>
@@ -211,7 +248,9 @@ export const AdminPanel: React.FC = () => {
                 name="authorLastName"
                 id="authorLastName"
                 value={authorLastName}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => setAuthorLastName(e.target.value)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setAuthorLastName(e.target.value)
+                }
               />
             </FormGroup>
             <FormGroup>
@@ -221,13 +260,17 @@ export const AdminPanel: React.FC = () => {
                 name="authorDateOfBirth"
                 id="authorDateOfBirth"
                 value={authorDateOfBirth}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => setAuthorDateOfBirth(e.target.value)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setAuthorDateOfBirth(e.target.value)
+                }
               />
             </FormGroup>
-            <Button type="submit" color="primary">Add Author</Button>
+            <Button type="submit" color="primary">
+              Add Author
+            </Button>
           </Form>
         </Col>
-        
+
         <Col>
           <h2>Add Book</h2>
           <Form onSubmit={handleAddBook}>
@@ -238,7 +281,9 @@ export const AdminPanel: React.FC = () => {
                 name="bookTitle"
                 id="bookTitle"
                 value={bookTitle}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => setBookTitle(e.target.value)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setBookTitle(e.target.value)
+                }
               />
             </FormGroup>
             <FormGroup>
@@ -248,10 +293,12 @@ export const AdminPanel: React.FC = () => {
                 name="bookAuthor"
                 id="bookAuthor"
                 value={bookAuthorId}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => setBookAuthorId(e.target.value)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setBookAuthorId(e.target.value)
+                }
               >
                 <option value="">Select Author</option>
-                {authors.map(author => (
+                {authors.map((author) => (
                   <option key={author._id} value={author._id}>
                     {author.authorFirstName} {author.authorLastName}
                   </option>
@@ -265,10 +312,12 @@ export const AdminPanel: React.FC = () => {
                 name="bookCategory"
                 id="bookCategory"
                 value={bookCategoryId}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => setBookCategoryId(e.target.value)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setBookCategoryId(e.target.value)
+                }
               >
                 <option value="">Select Category</option>
-                {categories.map(category => (
+                {categories.map((category) => (
                   <option key={category._id} value={category._id}>
                     {category.categoryName}
                   </option>
@@ -282,10 +331,14 @@ export const AdminPanel: React.FC = () => {
                 name="bookPhoto"
                 id="bookPhoto"
                 value={bookPhoto}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => setBookPhoto(e.target.value)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setBookPhoto(e.target.value)
+                }
               />
             </FormGroup>
-            <Button type="submit" color="primary">Add Book</Button>
+            <Button type="submit" color="primary">
+              Add Book
+            </Button>
           </Form>
         </Col>
       </Row>
@@ -307,14 +360,19 @@ export const AdminPanel: React.FC = () => {
                   <th scope="row">{index + 1}</th>
                   <td>{category.categoryName}</td>
                   <td>
-                    <Button color="danger" onClick={() => handleDeleteCategory(category._id)}>Delete</Button>
+                    <Button
+                      color="danger"
+                      onClick={() => handleDeleteCategory(category._id)}
+                    >
+                      Delete
+                    </Button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </Table>
         </Col>
-        
+
         <Col>
           <h2>Authors</h2>
           <Table>
@@ -335,14 +393,19 @@ export const AdminPanel: React.FC = () => {
                   <td>{author.authorLastName}</td>
                   <td>{author.authorDateOfBirth}</td>
                   <td>
-                    <Button color="danger" onClick={() => handleDeleteAuthor(author._id)}>Delete</Button>
+                    <Button
+                      color="danger"
+                      onClick={() => handleDeleteAuthor(author._id)}
+                    >
+                      Delete
+                    </Button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </Table>
         </Col>
-        
+
         <Col>
           <h2>Books</h2>
           <Table>
@@ -363,7 +426,12 @@ export const AdminPanel: React.FC = () => {
                   <td>{book.authorId}</td>
                   <td>{book.categoryId}</td>
                   <td>
-                    <Button color="danger" onClick={() => handleDeleteBook(book._id)}>Delete</Button>
+                    <Button
+                      color="danger"
+                      onClick={() => handleDeleteBook(book._id)}
+                    >
+                      Delete
+                    </Button>
                   </td>
                 </tr>
               ))}
@@ -373,21 +441,27 @@ export const AdminPanel: React.FC = () => {
       </Row>
     </Container>
   );
-    return (
-        <div className="admin-panel">
-            <h1>Admin Panel</h1>
-            <nav>
-                <ul>
-                    <li><Link to="categories"> Categories</Link></li>
-                    <li><Link to="books"> Books</Link></li>
-                    <li><Link to="authors"> Authors</Link></li>
-                </ul>
-            </nav>
-            <div>
-                <Outlet />
-            </div>
-        </div>
-    );
+  return (
+    <div className="admin-panel">
+      <h1>Admin Panel</h1>
+      <nav>
+        <ul>
+          <li>
+            <Link to="categories"> Categories</Link>
+          </li>
+          <li>
+            <Link to="books"> Books</Link>
+          </li>
+          <li>
+            <Link to="authors"> Authors</Link>
+          </li>
+        </ul>
+      </nav>
+      <div>
+        <Outlet />
+      </div>
+    </div>
+  );
 };
 
 export default AdminPanel;

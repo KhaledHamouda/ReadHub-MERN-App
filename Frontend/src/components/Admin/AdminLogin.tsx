@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import './loginAdmin.css';
-import axios from '../../axios';
+import React, { useState } from "react";
+import "./loginAdmin.css";
+import axios from "../../axios";
 
 interface AdminLoginProps {
   onLoginSuccess: (admin: boolean, token: string) => void;
@@ -12,12 +12,13 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    axios.post('/users/login', { email, password })
+    axios
+      .post("/users/login", { email, password })
       .then((res) => {
         const { admin, token } = res.data;
         if (admin) {
-          sessionStorage.setItem('userToken', token);
-          sessionStorage.setItem('admin', admin.toString());
+          sessionStorage.setItem("userToken", token);
+          sessionStorage.setItem("admin", admin.toString());
           onLoginSuccess(admin, token);
           alert("You are successfully logged in as Admin");
         } else {
@@ -44,7 +45,7 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
             name="email"
             placeholder="Email"
             value={email}
-            onChange={e => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <input
             type="password"
@@ -53,13 +54,11 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
             name="password"
             placeholder="Password"
             value={password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <input type="submit" className="fadeIn fourth" value="Log In" />
         </form>
-        <div id="formFooter">
-          Welcome To Admin Panel
-        </div>
+        <div id="formFooter">Welcome To Admin Panel</div>
       </div>
     </div>
   );
