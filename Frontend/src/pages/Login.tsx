@@ -7,6 +7,8 @@ import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import login from '../assets/login.svg';
 import axiosInstance from '../axios';
+import { setloginState } from '../Redux/DataSlice';
+import { useDispatch } from 'react-redux';
 
 // Validation schema with Zod
 const loginSchema = z.object({
@@ -36,6 +38,7 @@ const FormCard = styled(Box)({
 
 const LoginForm: React.FC = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const {
         register,
         handleSubmit,
@@ -49,8 +52,10 @@ const LoginForm: React.FC = () => {
         const response = await axiosInstance.post('/users/login', data);
         if (response.status === 200) {
             sessionStorage.setItem('userToken', JSON.stringify(response.data));
+
             alert('You are successfully logged in');
-            navigate('/categories');
+            dispatch(setloginState(true))
+            navigate('/Dashboard');
         }
         } catch (error) {
         console.error(error);
