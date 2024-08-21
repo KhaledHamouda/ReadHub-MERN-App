@@ -38,7 +38,10 @@ import { SearchDialog } from "../../assets/SearchDialog";
 // Styled components
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
   background: theme.palette.mode === 'light'
-    ? "linear-gradient(135deg, #6a11cb 0%, #2575fc 100%)"
+    // ? "linear-gradient(135deg, #6a11cb 0%, #2575fc 100%)"
+    // ? "rgb(152, 171, 238)"
+    // ?"rgb(204, 224, 172)"
+    ?"rgb(78, 49, 170)"
     : "linear-gradient(45deg, #333 30%, #555 90%)",
   border: 0,
   borderRadius: 3,
@@ -58,13 +61,14 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 
 const Navbar: React.FC = () => {
   const { loginState } = useSelector((state: any) => state.DataReducer);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const pages = ["Home", "Books", "Categories", "Authors"];
+  console.log(`loginstate: ${loginState}`)
   const settings = loginState ? ["Profile", "Dashboard", "Logout"] : ["Login", "Admin"];
 
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const { mode } = useSelector((state: any) => state.DataReducer);
-  const dispatch = useDispatch();
   const theme = useTheme();
   const drawerWidth = 240;
 
@@ -79,11 +83,12 @@ const Navbar: React.FC = () => {
     setAnchorElUser(null);
     setOpen(false);
     if (page.toLowerCase() === 'login') {
-      navigate('/login'); // Update to your sign-in route
+      navigate('/login');
     } else if (page === 'profile') {
+      console.log("profiler")
       navigate(`/${page}/${sessionStorage.getItem("id")}`);
-    } else if (page === 'logout') {
-      dispatch(setloginState(false));
+    } else if (page === 'Logout') {
+      dispatch(setloginState(false))
       sessionStorage.clear();
       dispatch(setUserData({}));
       sessionStorage.removeItem("img");
@@ -233,53 +238,31 @@ const Navbar: React.FC = () => {
         >
           <DrawerHeader>
             <IconButton onClick={() => handleDrawerClose("")}>
-              {theme.direction === "ltr" ? (
-                <ChevronLeftIcon />
-              ) : (
-                <ChevronRightIcon />
-              )}
+              {theme.direction === "ltr" ? <ChevronLeftIcon /> : <ChevronRightIcon />}
             </IconButton>
           </DrawerHeader>
-          {openSearchDialog ? <SearchDialog /> : ""}
           <Divider />
           <List>
-            {["Home", "Books", "Categories", "Authors"].map((text, index) => (
-              <ListItem button key={text} onClick={() => handleDrawerClose(text)}>
+            {pages.map((page, index) => (
+              <ListItem button key={page} onClick={() => handleDrawerClose(page)}>
                 <ListItemIcon>
-                  {index === 0 ? (
-                    <HomeIcon />
-                  ) : index === 1 ? (
-                    <MenuBookIcon />
-                  ) : index === 2 ? (
-                    <ClassIcon />
-                  ) : index === 3 ? (
-                    <AccountCircleIcon />
-                  ) : null}
+                  {index === 0 ? <HomeIcon /> : null}
+                  {index === 1 ? <MenuBookIcon /> : null}
+                  {index === 2 ? <ClassIcon /> : null}
                 </ListItemIcon>
-                <ListItemText primary={text} />
+                <ListItemText primary={page} />
               </ListItem>
             ))}
           </List>
           <Divider />
           <List>
-            <ListItem
-              key="Mode"
-              onClick={() => dispatch(changeMood(mode))}
-            >
-              <ListItemIcon>
-                {mode === "light" ? <DarkModeIcon /> : <LightModeIcon />}
-              </ListItemIcon>
-              <ListItemText primary="Mode" />
-            </ListItem>
-
-            <ListItem button key="User" onClick={() => handleDrawerNavigate('profile')}>
+            <ListItem button onClick={() => handleDrawerNavigate("Login")}>
               <ListItemIcon>
                 <AccountCircleIcon />
               </ListItemIcon>
-              <ListItemText primary="User" />
+              <ListItemText primary="Login" />
             </ListItem>
-
-            <ListItem button key="Logout" onClick={() => handleDrawerNavigate('logout')}>
+            <ListItem button onClick={() => handleDrawerNavigate("Logout")}>
               <ListItemIcon>
                 <LogoutIcon />
               </ListItemIcon>
@@ -288,6 +271,8 @@ const Navbar: React.FC = () => {
           </List>
         </Drawer>
       </Container>
+
+      {openSearchDialog && <SearchDialog />}
     </StyledAppBar>
   );
 };
