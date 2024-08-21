@@ -1,6 +1,7 @@
 
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
+
 import {
   BrowserRouter as Router,
   Route,
@@ -16,9 +17,12 @@ import Home from "./pages/Home";
 import BookList from "./components/Book/BookList";
 import AuthorList from "./components/Author/AuthorList";
 import CategoryList from "./components/Category/CategoryList";
+import Dashboard from "./pages/Dashboard";
+import LoginForm from "./pages/Login";
+import SignUp from "./pages/SignUp";
+
 
 function App() {
-  const { authState } = useSelector((state: RootState) => state.DataReducer);
   const [isAdmin, setIsAdmin] = useState<boolean>(() => {
     return sessionStorage.getItem("admin") === "true";
   });
@@ -46,10 +50,15 @@ function App() {
         <Route path="/admin/books" element={<AdminBooks />} />
         <Route path="/admin/categories" element={<AdminCategory />} />
         <Route path="/admin/authors" element={<AdminAuthor />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route
           path="/admin/*"
           element={isAdmin ? <AdminPanel /> : <Navigate to="/admin" />}
         />
+        <Route path="/login" element={<LoginForm />} />
+        {/* {authState === 'login' && <Route path="/login" element={<LoginForm />} />} */}
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="*" element={<Navigate to="/" />} />
 
       </Routes>
     </Router>
