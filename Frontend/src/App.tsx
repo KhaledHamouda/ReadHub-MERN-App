@@ -1,5 +1,6 @@
 
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import {
   BrowserRouter as Router,
   Route,
@@ -25,7 +26,7 @@ function App() {
   const handleLoginSuccess = (admin: boolean) => {
     setIsAdmin(admin);
 
-    window.location.href = "/admin/category";
+    window.location.href = "/admin/categories";
   };
 
   return (
@@ -43,8 +44,8 @@ function App() {
         <Route path="/authors" element={<AuthorList />} />
         <Route path="/categories" element={<CategoryList />} />
         <Route path="/admin/books" element={<AdminBooks />} />
-        <Route path="/admin/category" element={<AdminCategory />} />
-        <Route path="/admin/author" element={<AdminAuthor />} />
+        <Route path="/admin/categories" element={<AdminCategory />} />
+        <Route path="/admin/authors" element={<AdminAuthor />} />
         <Route
           path="/admin/*"
           element={isAdmin ? <AdminPanel /> : <Navigate to="/admin" />}

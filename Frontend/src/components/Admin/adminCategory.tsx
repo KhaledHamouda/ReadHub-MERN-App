@@ -76,7 +76,7 @@ const AdminCategory: React.FC = () => {
     <div className="categories-container">
       <nav className="navbar">
         <button
-          onClick={() => handleNavigation("/admin/category")}
+          onClick={() => handleNavigation("/admin/categories")}
           className="nav-button"
         >
           Categories
@@ -88,7 +88,7 @@ const AdminCategory: React.FC = () => {
           Books
         </button>
         <button
-          onClick={() => handleNavigation("/admin/author")}
+          onClick={() => handleNavigation("/admin/authors")}
           className="nav-button"
         >
           Authors
