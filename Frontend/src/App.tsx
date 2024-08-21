@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import {
   BrowserRouter as Router,
@@ -16,12 +17,14 @@ import AuthorList from "./components/Author/AuthorList";
 import CategoryList from "./components/Category/CategoryList";
 
 function App() {
+  const { authState } = useSelector((state: RootState) => state.DataReducer);
   const [isAdmin, setIsAdmin] = useState<boolean>(() => {
     return sessionStorage.getItem("admin") === "true";
   });
 
-  const handleLoginSuccess = (admin: boolean, token: string) => {
+  const handleLoginSuccess = (admin: boolean) => {
     setIsAdmin(admin);
+
     window.location.href = "/admin/category";
   };
 
@@ -35,6 +38,7 @@ function App() {
           path="/admin"
           element={<AdminLogin onLoginSuccess={handleLoginSuccess} />}
         />
+
         <Route path="/books" element={<BookList />} />
         <Route path="/authors" element={<AuthorList />} />
         <Route path="/categories" element={<CategoryList />} />
@@ -45,6 +49,7 @@ function App() {
           path="/admin/*"
           element={isAdmin ? <AdminPanel /> : <Navigate to="/admin" />}
         />
+
       </Routes>
     </Router>
   );
