@@ -1,3 +1,22 @@
+
+/* html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin-top: 10px;
+    text-align: center;
+}
+
 tbody, tr, td{
     text-align: center;
     align-items: center;
@@ -33,4 +52,296 @@ tbody, tr, td{
     margin-left: 39.5rem;
 }
 
-  
+   */
+
+/* ---------------------------------------------------------------------------------------- */
+
+/* ----------------------------------------------------------------------------------------- */
+
+/* #root {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin-top: 10px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #333;
+  background-color: #e0f7fa;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  margin: 0 10px;
+}
+
+.nav-button:hover {
+  background-color: #b2ebf2;
+  color: #000;
+}
+
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.table th,
+.table td {
+  text-align: center;
+  padding: 12px;
+}
+
+.table th {
+  background-color: #f0f0f0;
+  font-size: 16px;
+  font-weight: bold;
+  color: #555;
+}
+
+.table td {
+  border-top: 1px solid #ddd;
+  color: #333;
+}
+
+
+.table-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.edit-button,
+.delete-button {
+  border: none;
+  color: white;
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.edit-button {
+  background-color: #00bcd4;
+}
+
+.edit-button:hover {
+  background-color: #0097a7;
+}
+
+.delete-button {
+  background-color: #dc3545;
+}
+
+.delete-button:hover {
+  background-color: #c82333;
+}
+
+
+#updateForm {
+  padding: 2rem 1.5rem;
+  width: 700px;
+  height: auto;
+  position: absolute;
+  top: 25rem;
+  left: 33rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.bi {
+  margin: 1rem;
+  cursor: pointer;
+}
+
+.bi-trash-fill {
+  color: #f50000af;
+}
+
+.bi-pen-fill {
+  color: rgba(210, 244, 250, 0.87);
+}
+
+.bi-x-circle-fill {
+  color: #0065fd;
+  margin-top: 0;
+  margin-left: 39.5rem;
+}
+
+
+.form-control {
+  background-color: #ffffff;
+  color: #333;
+} */
+
+/* ---------------------------------------------------------------------------------------- */
+
+/* ----------------------------------------------------------------------------------------- */
+/* General Container */
+#root {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin-top: 10px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #333;
+  background-color: #e0f7fa;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-button:hover {
+  background-color: #b2ebf2;
+  color: #000;
+}
+
+/* Cover Image */
+.cover-photo {
+  width: 80px; /* Adjust the width as needed */
+  height: 120px; /* Adjust the height as needed */
+  object-fit: cover; /* Ensure the image fits well */
+  border-radius: 8px; /* Optional: add a border radius for a rounded effect */
+}
+
+/* Table */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.table th,
+.table td {
+  text-align: center;
+}
+
+.table th {
+  background-color: #f0f0f0;
+  font-size: 16px;
+  font-weight: bold;
+  color: #555;
+  padding: 12px;
+}
+
+.table td {
+  border-top: 1px solid #ddd;
+  padding: 12px;
+  color: #333;
+}
+
+/* Table Actions */
+.table-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.edit-button,
+.delete-button {
+  border: none;
+  background-color: #00bcd4;
+  color: white;
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.edit-button:hover {
+  background-color: #0097a7;
+}
+
+.delete-button {
+  background-color: #dc3545;
+}
+
+.delete-button:hover {
+  background-color: #c82333;
+}
+
+/* Form */
+#updateForm {
+  padding: 2rem 1.5rem;
+  width: 700px;
+  height: auto;
+  position: absolute;
+  top: 25rem;
+  left: 33rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.bi {
+  margin: 1rem;
+  cursor: pointer;
+}
+
+.bi-trash-fill {
+  color: #f50000af;
+}
+
+.bi-pen-fill {
+  color: rgba(210, 244, 250, 0.87);
+}
+
+.bi-x-circle-fill {
+  color: #0065fd;
+  margin-top: 0;
+  margin-left: 39.5rem;
+}
+
+/* Input */
+.form-control {
+  background-color: #ffffff;
+  color: #333;
+}
