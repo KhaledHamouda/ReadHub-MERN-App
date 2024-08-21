@@ -6,4 +6,5 @@ const DataStore = configureStore({
     DataReducer: DataSlice,
   },
 });
+export type RootState = ReturnType<typeof DataStore.getState>;
 export default DataStore;

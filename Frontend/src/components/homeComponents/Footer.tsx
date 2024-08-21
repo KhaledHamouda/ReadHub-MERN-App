@@ -48,7 +48,7 @@ const Footer: React.FC = () => {
     <div className={styles.Container}>
       <div className={styles.wrapper}>
         <div className={styles.left}>
-          <Typography variant="body1" className={styles.desc}>
+          <Typography variant="h6" className={styles.desc}>
             Reading is a gateway to endless learning and imagination. It sharpens the mind, enhances empathy, and provides a refreshing escape from daily routines. By exploring different genres and perspectives, you can grow intellectually and emotionally, making every book a valuable addition to your life.
           </Typography>
           <div className={styles.socailContainer}>

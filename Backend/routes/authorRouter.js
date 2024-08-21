@@ -154,4 +154,37 @@ route.delete("/", async (req, res) => {
   }
 });
 
+// Route to update author details and/or photo by ID
+route.put("/:id", upload.single("authorPhoto"), async (req, res) => {
+  const id = req.params.id;
+  const { authorFirstName, authorLastName, authorDateOfBirth } = req.body;
+  const authorPhoto = req.file;
+
+  try {
+    const author = await Author.findById(id);
+
+    if (!author) {
+      return res.status(404).json({ message: "Author not found" });
+    }
+
+    if (authorFirstName) author.authorFirstName = authorFirstName;
+    if (authorLastName) author.authorLastName = authorLastName;
+    if (authorDateOfBirth) author.authorDateOfBirth = authorDateOfBirth;
+
+    if (authorPhoto) {
+      author.authorPhoto = {
+        data: authorPhoto.buffer,
+        contentType: authorPhoto.mimetype,
+      };
+    }
+
+    await author.save();
+    res.json(author);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "An error occurred", error: error.message });
+  }
+});
+
 module.exports = route;

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import './AdminBooks.css'
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "./AdminBooks.css";
 
 interface Book {
   _id: string;
@@ -39,11 +39,11 @@ export default function AdminBooks() {
     const [showAddingForm, setShowAddingForm] = useState(false)
     const [currentBook, setCurrentBook] = useState<Book | null>(null)
 
-    useEffect(() => {
-      handleDisplay();
-      getCategories();
-      getAuthors();
-    }, [])
+  useEffect(() => {
+    handleDisplay();
+    getCategories();
+    getAuthors();
+  }, []);
 
     const getCategories = () => {
       axios.get('http://localhost:3100/categories')
@@ -94,9 +94,9 @@ export default function AdminBooks() {
         .then ((res) => {
           if(res.data){
             handleDisplay();
-          }else{
-            alert('Error Deleting Book!')
-          }  
+          } else {
+            alert("Error Deleting Book!");
+          }
         })
         .catch(err => {
           console.error('Error: ' + err)
@@ -135,12 +135,14 @@ export default function AdminBooks() {
       showAddingForm === false && setShowForm(true);
    }
 
-   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     if (currentBook) {
       const { name, value } = e.target;
       setCurrentBook({
         ...currentBook,
-        [name]: value
+        [name]: value,
       });
     }
   };
@@ -161,9 +163,7 @@ export default function AdminBooks() {
         console.error('Error: ' + err)
       })
     }
- }
-
-
+  };
 
   return (
     <>
@@ -191,7 +191,7 @@ export default function AdminBooks() {
 </nav>
 
       <table className="table table-dark table-hover">
-        <thead className='table-primary'>
+        <thead className="table-primary">
           <tr>
             <th scope="col">ID</th>
             <th scope="col">Cover</th>
@@ -203,28 +203,47 @@ export default function AdminBooks() {
         </thead>
 
         <tbody>
-        {books.length > 0 &&
-          books.map((book) => {return(
-              <tr key={book._id}>
-                <td className="align-middle"> {book.idShow} </td>
-                <td className="align-middle"> <img src={book.photo} alt="" width={100}/></td>
-                <td className="align-middle"> {book.title} </td>
-                <td className="align-middle"> {book.categoryShow} </td>
-                <td className="align-middle"> {book.authorShow} </td>
-                <td className="align-middle"> 
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" className="bi bi-pen-fill" viewBox="0 0 16 16"
-                  onClick={() => handleUpdate(book)}>
-                    <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001"/>
-                  </svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16"
-                  onClick={()=>{handleDelete(book._id)}}>
-                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
-                  </svg> 
-                </td>
-              </tr>
-            )
-          })
-        }
+          {books.length > 0 &&
+            books.map((book) => {
+              return (
+                <tr key={book._id}>
+                  <td className="align-middle"> {book.idShow} </td>
+                  <td className="align-middle">
+                    {" "}
+                    <img src={book.photo} alt="" width={100} />
+                  </td>
+                  <td className="align-middle"> {book.title} </td>
+                  <td className="align-middle"> {book.categoryShow} </td>
+                  <td className="align-middle"> {book.authorShow} </td>
+                  <td className="align-middle">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      fill="currentColor"
+                      className="bi bi-pen-fill"
+                      viewBox="0 0 16 16"
+                      onClick={() => handleUpdate(book)}
+                    >
+                      <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001" />
+                    </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      fill="currentColor"
+                      className="bi bi-trash-fill"
+                      viewBox="0 0 16 16"
+                      onClick={() => {
+                        handleDelete(book._id);
+                      }}
+                    >
+                      <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
+                    </svg>
+                  </td>
+                </tr>
+              );
+            })}
         </tbody>
     </table>
 
@@ -318,13 +337,28 @@ export default function AdminBooks() {
           </svg>
 
           <div className="mb-3">
-          <input type="text" onChange={handleInputChange} value={currentBook.idShow} className="form-control bg-Secondary text-dark" id="colFormLabelLg" placeholder="ID" name='idShow'/>
+            <input
+              type="text"
+              onChange={handleInputChange}
+              value={currentBook.idShow}
+              className="form-control bg-Secondary text-dark"
+              id="colFormLabelLg"
+              placeholder="ID"
+              name="idShow"
+            />
           </div>
 
           <div className="mb-3">
-          <input type="text" onChange={handleInputChange} value={currentBook.title} className="form-control bg-Secondary text-dark" id="colFormLabelLg" placeholder="Book Title" name='title'/>
+            <input
+              type="text"
+              onChange={handleInputChange}
+              value={currentBook.title}
+              className="form-control bg-Secondary text-dark"
+              id="colFormLabelLg"
+              placeholder="Book Title"
+              name="title"
+            />
           </div>
-
 
           <div className="mb-3">  
               <input type="text" onChange={handleInputChange} value={currentBook.photo} className="form-control bg-Secondary text-dark" id="colFormLabelLg" placeholder="Image-URL" name='photo'/>
