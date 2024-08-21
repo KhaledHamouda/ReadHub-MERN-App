@@ -15,6 +15,11 @@ html, body {
     margin-top: 10px;
     text-align: center;
 }
+
+.navbar-expand-lg{
+    background-color: #00000028;
+}
+
 tbody, tr, td{
     text-align: center;
     align-items: center;
@@ -39,15 +44,17 @@ tbody, tr, td{
     left: 33rem;
 }
 .form-select{
-    margin: 2px;
+    margin: 3px 0px 1rem;
     padding: 2px;
-    text-align: center;
+    
 }
-
-.bi-x-circle-fill{
+.bi-x-octagon-fill{
     color: #0065fd;
     margin-top: 0;
     margin-left: 39.5rem;
 }
 
+.bi-plus-circle-fill{
+    color: rgb(0, 204, 255);
+}
   

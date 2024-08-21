@@ -29,22 +29,28 @@ route.get('/:id', async(req, res) => {
 
 // Handle adding books
 route.post('/', (req, res) => {
-    const catName = req.query.categoryName
-    const authName = req.query.authorName.split(" ");
-    const authFirstName = authName[0];
-    const authSecondName = authName[1];
+    console.log(req.body)
+    const { categoryName, authorName, photo, title } = req.body;
+    console.log(authorName)
+    const authName = authorName.split(" ");
+    console.log(authName)
+    const authFirstName = authName[0]
+    const authSecondName = authName[1]
+    console.log(authSecondName)
     // fetch ids from DB
-    Category.where('categoryName').equals(catName).select('_id categoryId')
+    Category.where('categoryName').equals(categoryName).select('_id categoryId')
     .then(cat => {
         // Ensure that `catId` is resolved before proceeding
         return Author.where('authorFirstName').equals(authFirstName)
             .where('authorLastName').equals(authSecondName)
             .select('_id authorId')
-            .then(auth=> {
+            .then(auth => {
                 // Create and log the new book instance
+                console.log(auth)
+                console.log(cat)
                 const book = new Book({
-                    photo: req.query.photo,
-                    title: req.query.title,
+                    photo: photo,
+                    title: title,
                     categoryId: cat[0]._id,
                     categoryShow: cat[0].categoryId,
                     authorShow: auth[0].authorId,

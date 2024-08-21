@@ -29,7 +29,14 @@ export default function AdminBooks() {
     const [books, setBooks] = useState<Book[]>([])
     const [categories, setCategories] = useState<Category[]>([])
     const [authors, setAuthors] = useState<Author[]>([])
+    const [addedBook, setAddedBook] = useState({
+      categoryName: '',
+      authorName: '',
+      photo: '',
+      title: ''
+    });
     const [showForm, setShowForm] = useState(false)
+    const [showAddingForm, setShowAddingForm] = useState(false)
     const [currentBook, setCurrentBook] = useState<Book | null>(null)
 
     useEffect(() => {
@@ -37,6 +44,34 @@ export default function AdminBooks() {
       getCategories();
       getAuthors();
     }, [])
+
+    const getCategories = () => {
+      axios.get('http://localhost:3100/categories')
+        .then ((res) => {
+          if(res.data){
+            setCategories(res.data)
+          }else{
+            alert('Error Fetching Categories!')
+          }  
+        })
+        .catch(err => {
+          console.error('Error: ' + err)
+        })
+    } 
+
+    const getAuthors = () => {
+      axios.get('http://localhost:3100/authors')
+        .then ((res) => {
+          if(res.data){
+            setAuthors(res.data)
+          }else{
+            alert('Error Fetching Authors!')
+          }  
+        })
+        .catch(err => {
+          console.error('Error: ' + err)
+        })
+    };
 
     const handleDisplay = () => {
         axios.get('http://localhost:3100/books')
@@ -52,35 +87,7 @@ export default function AdminBooks() {
         })
     }
 
-    const getCategories = () =>{
-      axios.get('http://localhost:3100/categories')
-      .then ((res) => {
-        if(res.data){
-          setCategories(res.data)
-        }else{
-          alert('Error Fetching Categories!')
-        }  
-      })
-      .catch(err => {
-        console.error('Error: ' + err)
-      })
-    }
-
-    const getAuthors = () =>{
-      axios.get('http://localhost:3100/authors')
-      .then ((res) => {
-        if(res.data){
-          setAuthors(res.data)
-        }else{
-          alert('Error Fetching Authors!')
-        }  
-      })
-      .catch(err => {
-        console.error('Error: ' + err)
-      })
-    }
-
-     const handleDelete = (id: string) => {
+    const handleDelete = (id: string) => {
       const agree = confirm('Are you want to delete this book ?')
       if(agree){
         axios.delete(`http://localhost:3100/books/${id}`)
@@ -97,9 +104,35 @@ export default function AdminBooks() {
       }
    }
 
+   const handlePostSubmit = (e: React.FormEvent) => {
+      console.log(addedBook);
+      axios.post('http://localhost:3100/books', addedBook)
+      .then ((res) => {
+        if(res.data){
+          handleDisplay();
+          setShowAddingForm(false)
+        }else{
+          alert('Error Adding Book!')
+        }
+      })
+      .catch(err => {
+        console.error('Error: ' + err)
+      })
+   }
+
+   const handlePostChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    if (addedBook) {
+      const { name, value } = e.target;
+      setAddedBook({
+        ...addedBook,
+        [name]: value
+      });
+    }
+   }
+
    const handleUpdate = (book: Book) => {
       setCurrentBook(book)
-      setShowForm(true);
+      showAddingForm === false && setShowForm(true);
    }
 
    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -119,6 +152,7 @@ export default function AdminBooks() {
       .then((res) => {
         if(res){
           handleDisplay();
+          setShowForm(false)
         }else{
           alert('Error Updating Book!')
         }  
@@ -134,20 +168,24 @@ export default function AdminBooks() {
   return (
     <>
 
-<nav className="navbar navbar-expand-lg bg-light p-3">
+<nav className="navbar navbar-expand-lg p-3">
   <div className="container-fluid">
     <div className="collapse navbar-collapse" id="navbarText">
       <ul className="navbar-nav me-auto mb-2 mb-lg-0">
         <li className="nav-item mx-2">
-          <a className="nav-link fw-bold rounded border border-primary bg-warning" href="/admin/categories">Categories</a>
+          <a className="nav-link fw-bold rounded border border-primary bg-info" href="/admin/categories">Categories</a>
         </li>
         <li className="nav-item mx-2">
-          <a className="nav-link fw-bold rounded border border-primary bg-warning" href="/admin/books">Books</a>
+          <a className="nav-link fw-bold rounded border border-primary bg-info" href="/admin/books">Books</a>
         </li>
         <li className="nav-item mx-2">
-          <a className="nav-link fw-bold rounded border border-primary bg-warning" href="/admin/authors">Authors</a>
+          <a className="nav-link fw-bold rounded border border-primary bg-info" href="/admin/authors">Authors</a>
         </li>
       </ul>
+      <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" className="bi bi-plus-circle-fill" viewBox="0 0 16 16"
+      onClick={() => {showForm === false && setShowAddingForm(true)}}>
+        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+      </svg>
     </div>
   </div>
 </nav>
@@ -188,12 +226,93 @@ export default function AdminBooks() {
           })
         }
         </tbody>
-
     </table>
+
+    {/* add book form */}
+    {showAddingForm &&
+  <div className='container'>
+    <form 
+      className='container rounded border bg-light' 
+      id='updateForm'
+      onSubmit={(e) => {handlePostSubmit(e)}}
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" className="bi bi-x-octagon-fill" viewBox="0 0 16 16"
+      onClick={() => setShowAddingForm(false)}>
+        <path d="M11.46.146A.5.5 0 0 0 11.107 0H4.893a.5.5 0 0 0-.353.146L.146 4.54A.5.5 0 0 0 0 4.893v6.214a.5.5 0 0 0 .146.353l4.394 4.394a.5.5 0 0 0 .353.146h6.214a.5.5 0 0 0 .353-.146l4.394-4.394a.5.5 0 0 0 .146-.353V4.893a.5.5 0 0 0-.146-.353zm-6.106 4.5L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708"/>
+      </svg>
+
+      <div className="mb-3">
+          <input 
+              type="text" 
+              onChange={(e) => handlePostChange(e)} 
+              className="form-control bg text-dark" 
+              id="colFormLabelLg" 
+              placeholder="Book Title" 
+              name='title' 
+              required 
+          />
+      </div>
+
+      <select 
+          className="form-select" 
+          aria-label="Default select example" 
+          required 
+          name='categoryName'
+          onChange={(e) => handlePostChange(e)}
+      >
+          <option disabled selected value="">Category</option>
+          {categories.map((Category) => (
+              <option key={Category.categoryName}> 
+                  {Category.categoryName} 
+              </option>
+          ))}
+          <option value="Math">Math</option>
+      </select>
+
+      <select 
+          className="form-select" 
+          aria-label="Default select example" 
+          required 
+          name='authorName'
+          onChange={(e) => handlePostChange(e)}
+      >
+          <option disabled selected value="">Author</option>
+          {authors.map((author) => (
+              <option key={author.authorId}> 
+                  {author.authorFirstName + " " + author.authorLastName} 
+              </option>
+          ))}
+      </select>
+
+      <div className="mb-3">  
+          <input 
+              type="text" 
+              onChange={(e) => handlePostChange(e)} 
+              className="form-control bg text-dark" 
+              id="colFormLabelLg" 
+              placeholder="Image-URL" 
+              name='photo' 
+              required 
+          />
+      </div> 
+
+      <button 
+          type="submit" 
+          className="btn btn-outline-primary"
+      >
+          Add Book
+      </button>
+    </form>  
+</div>
+  
+    }
+
+    {/* update book form */}
     {currentBook && showForm &&
+      <div className='container'>
         <form className='container rounded border bg-light' action="" id='updateForm'>
 
-          <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" className="bi bi-x-circle-fill" viewBox="0 0 16 16"
+          <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" className="bi bi-x-octagon-fill" viewBox="0 0 16 16"
           onClick={() => setShowForm(false)}>
             <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
           </svg>
@@ -208,13 +327,12 @@ export default function AdminBooks() {
 
 
           <div className="mb-3">  
-              <input type="email" onChange={handleInputChange} value={currentBook.photo} className="form-control bg-Secondary text-dark" id="colFormLabelLg" placeholder="Image-URL" name='photo'/>
+              <input type="text" onChange={handleInputChange} value={currentBook.photo} className="form-control bg-Secondary text-dark" id="colFormLabelLg" placeholder="Image-URL" name='photo'/>
           </div> 
 
           <button type="button" onClick={(e) => {handleUpdateSubmit(currentBook._id, e)}} className="btn btn-outline-primary">Save Changes</button>
-
-
-        </form>    
+        </form>
+      </div>    
     }
   </>
   );
