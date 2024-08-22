@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
+import "./CategoryDetail.css";
+import Navbar from "../homeComponents/Navbar";
 
 interface Author {
   authorFirstName: string;
@@ -8,7 +10,7 @@ interface Author {
 }
 
 interface Book {
-  _id: string; // Assuming each book has a unique ID
+  _id: string;
   title: string;
   photo: string;
   authorId: Author;
@@ -53,20 +55,24 @@ const CategoryDetail = () => {
   if (!category) {
     return <p>Category not found.</p>;
   }
-
   return (
-    <div className="category-detail">
-      <h1>{category.categoryName}</h1>
-      <div className="books-list">
-        {category.books.map((book) => (
-          <div key={book._id} className="book-item">
-            <Link to={`/book/${book._id}`}>
-              <img src={book.photo} alt={book.title} className="book-photo" />
-              <h3>{book.title}</h3>
-              <p>{`${book.authorId.authorFirstName} ${book.authorId.authorLastName}`}</p>
-            </Link>
-          </div>
-        ))}
+    <div>
+      <Navbar />
+      <div className="category-detail">
+        <h1>{category.categoryName}</h1>
+        <div className="books-list">
+          {category.books.map((book) => (
+            <div key={book._id} className="book-item">
+              <Link to={`/book/${book._id}`}>
+                <img src={book.photo} alt={book.title} className="book-photo" />
+                <h3>{book.title}</h3>
+                <p>
+                  {`${book.authorId.authorFirstName} ${book.authorId.authorLastName}`}
+                </p>
+              </Link>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
