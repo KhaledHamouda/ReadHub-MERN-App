@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { FaStar } from "react-icons/fa";
 import "./AuthorDetail.css";
+import Navbar from "../homeComponents/Navbar";
 
 interface DecodedToken {
   id: string;
@@ -23,7 +24,7 @@ interface Book {
   photo: string;
   state?: string;
   userRating?: number;
-  averageRating?: string;
+  averageRating?: number;
   ratingCount?: number;
 }
 
@@ -170,82 +171,101 @@ const AuthorDetail = () => {
   }
 
   return (
-    <div className="author-detail">
-      <div className="author-header">
-        <img
-          src={author.authorPhoto}
-          alt={`${author.authorFirstName} ${author.authorLastName}`}
-          className="author-photo"
-        />
-        <div className="author-info">
-          <h1>
-            {author.authorFirstName} {author.authorLastName}
-          </h1>
-          <p>
-            <strong>Date of Birth:</strong>{" "}
-            {new Date(author.authorDateOfBirth).toLocaleDateString()}
-          </p>
+    <div>
+      <Navbar />
+      <div className="author-detail">
+        <div className="author-header">
+          <img
+            src={author.authorPhoto}
+            alt={`${author.authorFirstName} ${author.authorLastName}`}
+            className="author-photo"
+          />
+          <div className="author-info">
+            <h1>
+              {author.authorFirstName} {author.authorLastName}
+            </h1>
+            <p>
+              <strong>Date of Birth:</strong>{" "}
+              {new Date(author.authorDateOfBirth).toLocaleDateString()}
+            </p>
+          </div>
         </div>
-      </div>
 
-      <div className="author-books-section">
-        <h2>
-          Books by {author.authorFirstName} {author.authorLastName}
-        </h2>
-        {books.length > 0 ? (
-          books.map((book) => (
-            <div key={book._id} className="book">
-              <img src={book.photo} alt={book.title} className="book-photo" />
-              <div className="book-info">
-                <h3>{book.title}</h3>
+        <div className="author-books-section">
+          <h2>
+            Books by {author.authorFirstName} {author.authorLastName}
+          </h2>
+          {books.length > 0 ? (
+            books.map((book) => {
+              const averageRating = Number(book.averageRating) || 0;
+              return (
+                <div key={book._id} className="book">
+                  <img
+                    src={book.photo}
+                    alt={book.title}
+                    className="book-photo"
+                  />
+                  <div className="book-info">
+                    <h3>{book.title}</h3>
 
-                <div className="book-state-rating">
-                  <div className="book-state">
-                    <strong>State:</strong>
-                    <select
-                      value={book.state || "Want to Read"}
-                      onChange={(e) =>
-                        handleStateChange(book._id, e.target.value)
-                      }
-                    >
-                      <option value="Want to Read">Want to Read</option>
-                      <option value="Currently Reading">
-                        Currently Reading
-                      </option>
-                      <option value="Read">Read</option>
-                    </select>
-                  </div>
+                    <div className="book-state-rating">
+                      <div className="book-state">
+                        <strong>State:</strong>
+                        <select
+                          value={book.state || "Want to Read"}
+                          onChange={(e) =>
+                            handleStateChange(book._id, e.target.value)
+                          }
+                        >
+                          <option value="Want to Read">Want to Read</option>
+                          <option value="Currently Reading">
+                            Currently Reading
+                          </option>
+                          <option value="Read">Read</option>
+                        </select>
+                      </div>
 
-                  <div className="book-rating">
-                    <strong>Your Rating:</strong>
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <FaStar
-                        key={star}
-                        className={`star ${
-                          star <= (book.userRating || 0) ? "filled" : ""
-                        }`}
-                        onClick={() => handleRatingChange(book._id, star)}
-                      />
-                    ))}
-                  </div>
+                      <div className="book-rating">
+                        <strong>Your Rating:</strong>
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <FaStar
+                            key={star}
+                            className={`star ${
+                              star <= (book.userRating || 0) ? "filled" : ""
+                            }`}
+                            onClick={() => handleRatingChange(book._id, star)}
+                          />
+                        ))}
+                      </div>
 
-                  <div className="average-rating">
-                    <strong>Average Rating:</strong>
-                    {book.averageRating ? (
-                      <span>
-                        {book.averageRating} ({book.ratingCount} ratings)
-                      </span>
-                    ) : (
-                      <span>No ratings yet</span>
-                    )}
+                      <div className="average-rating">
+                        <strong>Average Rating:</strong>
+                        {averageRating > 0 ? (
+                          <>
+                            {[...Array(Math.round(averageRating))].map(
+                              (_, i) => (
+                                <FaStar key={i} />
+                              )
+                            )}
+                            <span>
+                              {" "}
+                              ({averageRating.toFixed(1)} out of{" "}
+                              {book.ratingCount} ratings)
+                            </span>
+                          </>
+                        ) : (
+                          <span>No ratings yet</span>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          ))
-        ) : (
-          <p>No books found for this author.</p>
-        )}
+              );
+            })
+          ) : (
+            <p>No books found for this author.</p>
+          )}
+        </div>
       </div>
     </div>
   );
