@@ -63,8 +63,6 @@ route.get("/:id", async (req, res) => {
   }
 });
 
-module.exports = route;
-
 // Delete category by id
 route.delete("/:id", async (req, res) => {
   const id = req.params.id;

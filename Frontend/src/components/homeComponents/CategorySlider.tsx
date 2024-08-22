@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
 import styles from "./CategorySlider.module.css";
-import { Card, CardContent, Typography, Tabs, Tab, Box } from "@mui/material";
+import { Card, CardContent, Typography, Tabs, Tab } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../axios";
 
-// Define the structure of category data
 interface Category {
   _id: string;
+  categoryId: number; // Assuming you have this field in your schema
   categoryName: string;
 }
 
-// Define the shape of the Redux state
 interface RootState {
   DataReducer: {
     mode: string;
@@ -27,16 +26,13 @@ const CategoriesSlider: React.FC = () => {
 
   let color: string;
   let fontColor: string;
-  let btnColor: "primary" | "success";
 
   if (mode === "light") {
     color = "#FAFAFC";
     fontColor = "rgba(131, 131, 131,1)";
-    btnColor = "primary";
   } else {
     color = "rgba(33, 35, 41,.8)";
     fontColor = "rgba(216, 140, 26,1)";
-    btnColor = "success";
   }
 
   useEffect(() => {
@@ -49,7 +45,8 @@ const CategoriesSlider: React.FC = () => {
   }, [mode]);
 
   useEffect(() => {
-    axiosInstance.get('/categories')
+    axiosInstance
+      .get("/categories")
       .then((response) => {
         console.log("API Response:", response.data);
         setCategoryData(response.data);
@@ -62,6 +59,10 @@ const CategoriesSlider: React.FC = () => {
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
+  };
+
+  const handleCategoryClick = (categoryId: number) => {
+    navigate(`category/${categoryId}`);
   };
 
   return (
@@ -103,7 +104,7 @@ const CategoriesSlider: React.FC = () => {
                 </CardContent>
               </Card>
             }
-            onClick={() => navigate(`category/${currItem._id}`)}
+            onClick={() => handleCategoryClick(currItem.categoryId)}
           />
         ))}
       </Tabs>
