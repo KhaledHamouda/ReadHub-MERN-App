@@ -20,7 +20,12 @@ import CategoryList from "./components/Category/CategoryList";
 import Dashboard from "./pages/Dashboard";
 import LoginForm from "./pages/Login";
 import SignUp from "./pages/SignUp";
+<<<<<<< HEAD
 
+=======
+import BookDetail from "./components/Book/BookDetail";
+import CategoryDetail from "./components/Category/CategoryDetail";
+>>>>>>> fe04995 ( add categories pages)
 
 function App() {
   const [isAdmin, setIsAdmin] = useState<boolean>(() => {
@@ -50,6 +55,7 @@ function App() {
         <Route path="/admin/books" element={<AdminBooks />} />
         <Route path="/admin/categories" element={<AdminCategory />} />
         <Route path="/admin/authors" element={<AdminAuthor />} />
+        <Route path="/category/:id" element={<CategoryDetail />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route
           path="/admin/*"
