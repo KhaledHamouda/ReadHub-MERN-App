@@ -53,7 +53,8 @@ const AuthorList: React.FC = () => {
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   return (
-    <div>
+    <div className="author-list-container">
+      <h2 className="author-list-title">Authors</h2>
       <div className="author-list">
         {loading ? (
           <p>Loading authors...</p>
@@ -66,12 +67,14 @@ const AuthorList: React.FC = () => {
               to={`/author/${author._id}`}
               className="author-item"
             >
-              <h3>{`${author.authorFirstName} ${author.authorLastName}`}</h3>
-
-              <img
-                src={`http://localhost:3100/authors/photo/${author._id}`}
-                alt={`${author.authorFirstName} ${author.authorLastName}`}
-              />
+              <div className="author-photo-wrapper">
+                <img
+                  src={author.authorPhoto}
+                  alt={`${author.authorFirstName} ${author.authorLastName}`}
+                  className="author-photo"
+                />
+              </div>
+              <h3 className="author-name">{`${author.authorFirstName} ${author.authorLastName}`}</h3>
             </Link>
           ))
         ) : (
@@ -79,28 +82,37 @@ const AuthorList: React.FC = () => {
         )}
       </div>
 
-      <nav>
+      <nav className="pagination-nav">
         <ul className="pagination">
           <li>
             <button
               onClick={() => paginate(currentPage - 1)}
               disabled={currentPage === 1}
+              className="pagination-button"
             >
               Previous
             </button>
           </li>
-          {pageNumbers.map((page) => (
+          {[...Array(totalPages)].map((_, i) => (
             <li
-              key={`page-${page}`}
-              className={currentPage === page ? "active" : ""}
+              key={`page-${i + 1}`}
+              className={`pagination-item ${
+                currentPage === i + 1 ? "active" : ""
+              }`}
             >
-              <button onClick={() => paginate(page)}>{page}</button>
+              <button
+                onClick={() => paginate(i + 1)}
+                className="pagination-button"
+              >
+                {i + 1}
+              </button>
             </li>
           ))}
           <li>
             <button
               onClick={() => paginate(currentPage + 1)}
               disabled={currentPage === totalPages}
+              className="pagination-button"
             >
               Next
             </button>

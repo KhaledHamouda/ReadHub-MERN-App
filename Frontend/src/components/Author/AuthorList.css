@@ -1,68 +1,146 @@
-.author-list {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 20px;
-  padding: 40px;
-  justify-items: center;
-  align-items: center;
+/* General styling for the page */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.author-item {
+body,
+html {
+  height: 100%;
+  font-family: "Poppins", sans-serif;
+}
+
+.author-list-container {
+  min-height: 100vh;
+  padding: 50px 20px;
+  background: radial-gradient(circle, #667eea 0%, #764ba2 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+}
+
+.author-list-title {
   text-align: center;
-  width: 200px;
-  padding: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  font-size: 3rem;
+  color: #f9fafb;
+  margin-bottom: 50px;
+  font-weight: 800;
+  text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background: linear-gradient(90deg, #ffffff, #ffffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.author-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  width: 100%;
+}
+
+.author-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  position: relative;
+  padding: 20px;
+}
+
+.author-photo-wrapper {
+  overflow: hidden;
+  height: 250px;
+  width: 100%;
+  border-radius: 15px;
+  margin-bottom: 20px;
+}
+
+.author-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+  border-radius: 15px;
+}
+
+.author-item:hover .author-photo {
+  transform: scale(1.1);
 }
 
 .author-item:hover {
-  transform: translateY(-5px);
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
 }
 
-.author-item img {
-  width: 100%;
-  height: 300px;
-  object-fit: cover;
-  margin-bottom: 10px;
+.author-name {
+  font-size: 1.8rem;
+  color: #1f2937;
+  margin: 15px 0 0;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: capitalize;
+  padding: 10px 15px;
+  border-radius: 10px;
+  display: inline-block;
+  transition: background-color 0.3s ease;
 }
 
-.author-item h3 {
-  font-size: 16px;
-  margin: 10px 0;
-  color: #000000;
+.author-item:hover .author-name {
+  background-color: rgba(229, 231, 235, 0.9);
+}
+
+.pagination-nav {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
 }
 
 .pagination {
   display: flex;
-  justify-content: center;
-  list-style-type: none;
+  list-style: none;
   padding: 0;
-  margin-top: 20px;
+  margin: 0;
 }
 
-.pagination button {
-  background-color: #0073e6;
-  color: white;
+.pagination-item {
+  margin: 0 8px;
+}
+
+.pagination-button {
+  background-color: #3b82f6;
+  color: #ffffff;
   border: none;
-  padding: 10px 15px;
-  margin: 0 5px;
-  border-radius: 4px;
+  border-radius: 8px;
+  padding: 12px 20px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.pagination button:hover {
-  background-color: #005bb5;
+.pagination-button:hover {
+  background-color: #2563eb;
+  transform: translateY(-3px);
 }
 
-.pagination button:disabled {
-  background-color: #ccc;
+.pagination-item.active .pagination-button {
+  background-color: #10b981;
+}
+
+.pagination-button[disabled] {
+  background-color: #9ca3af;
   cursor: not-allowed;
 }
 
-.pagination .active button {
-  background-color: #004080;
+.pagination-button:not([disabled]):hover {
+  transform: translateY(-5px);
 }
