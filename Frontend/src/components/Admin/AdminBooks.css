@@ -1,5 +1,5 @@
 
-/* html, body {
+html, body {
     margin: 0;
     padding: 0;
     width: 100%;
@@ -27,8 +27,9 @@ tbody, tr, td{
     align-items: center;
 }
 .bi{
-    margin: 1rem;
     cursor: pointer;
+    color: #0065fd;
+    margin-top: 0;
 }
 .bi-trash-fill{
     color: #f50000af;
@@ -50,13 +51,7 @@ tbody, tr, td{
     padding: 2px;
     
 }
-.bi-x-octagon-fill{
-    color: #0065fd;
-    margin-top: 0;
-    margin-left: 39.5rem;
-}
-
-   */
+ 
 
 /* ---------------------------------------------------------------------------------------- */
 

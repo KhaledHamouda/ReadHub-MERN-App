@@ -33,7 +33,7 @@
     "react-scroll": "^1.9.0",
     "reactstrap": "^9.2.2",
     "styled-components": "^6.1.12",
-    "tailwindcss": "^3.4.10",
+    "tailwindcss": "^3.2.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
