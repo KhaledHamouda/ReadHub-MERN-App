@@ -21,6 +21,7 @@ import LoginForm from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import BookDetail from "./components/Book/BookDetail";
 import CategoryDetail from "./components/Category/CategoryDetail";
+import AuthorDetail from "./components/Author/AuthorDetail";
 
 function App() {
   const [isAdmin, setIsAdmin] = useState<boolean>(() => {
@@ -51,6 +52,7 @@ function App() {
         <Route path="/admin/books" element={<AdminBooks />} />
         <Route path="/admin/categories" element={<AdminCategory />} />
         <Route path="/admin/authors" element={<AdminAuthor />} />
+        <Route path="/author/:id" element={<AuthorDetail />} />
         <Route path="/category/:id" element={<CategoryDetail />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route
