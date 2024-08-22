@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import "./BookDetail.css";
 import { FaStar } from "react-icons/fa";
+import Navbar from "../homeComponents/Navbar";
 
 interface DecodedToken {
   id: string;
@@ -246,99 +247,107 @@ const BookDetail = () => {
   if (!book) {
     return <p>Book not found.</p>;
   }
-
   return (
-    <div className="book-detail">
-      <img src={book.photo} alt={book.title} />
-      <div className="book-detail-content">
-        <h1>{book.title}</h1>
-        <p>
-          <strong>Author: </strong>
-          {book.authorId
-            ? `${book.authorId.authorFirstName || ""} ${
-                book.authorId.authorLastName || ""
-              }`.trim()
-            : "No author available"}
-        </p>
-        <p>
-          <strong>Category:</strong> {book.categoryId?.categoryName}
-        </p>
-
-        <div>
-          <strong>Average Rating:</strong>
-          {averageRating > 0 ? (
-            <>
-              {[...Array(Math.round(averageRating))].map((_, i) => (
-                <FaStar key={i} />
-              ))}
-              <span>
-                {" "}
-                ({averageRating.toFixed(1)} out of {ratingCount} ratings)
-              </span>
-            </>
-          ) : (
-            <span>No ratings yet</span>
-          )}
-        </div>
-        <div className="user-book-info">
-          <div>
-            <strong>State:</strong>
-            <select
-              value={userBook?.state || "Want to Read"}
-              onChange={(e) => handleStateChange(e.target.value)}
-            >
-              <option value="Want to Read">Want to Read</option>
-              <option value="Currently Reading">Currently Reading</option>
-              <option value="Read">Read</option>
-            </select>
-          </div>
+    <div>
+      <Navbar />
+      <div className="book-detail">
+        <img src={book.photo} alt={book.title} />
+        <div className="book-detail-content">
+          <h1>{book.title}</h1>
+          <p>
+            <strong>Author: </strong>
+            {book.authorId
+              ? `${book.authorId.authorFirstName || ""} ${
+                  book.authorId.authorLastName || ""
+                }`.trim()
+              : "No author available"}
+          </p>
+          <p>
+            <strong>Category:</strong> {book.categoryId?.categoryName}
+          </p>
 
           <div>
-            <strong>Review:</strong>
-            <textarea value={review} onChange={handleReviewChange} />
-            <button className="submit-button" onClick={handleReviewSubmit}>
-              Submit Review
-            </button>
-            {reviewError && <p className="error-message">{reviewError}</p>}
-            {reviewSubmitted && (
-              <p className="success-message">Review submitted successfully!</p>
+            <strong>Average Rating:</strong>
+            {averageRating > 0 ? (
+              <>
+                {[...Array(Math.round(averageRating))].map((_, i) => (
+                  <FaStar key={i} />
+                ))}
+                <span>
+                  {" "}
+                  ({averageRating.toFixed(1)} out of {ratingCount} ratings)
+                </span>
+              </>
+            ) : (
+              <span>No ratings yet</span>
             )}
           </div>
+          <div className="user-book-info">
+            <div>
+              <strong>State:</strong>
+              <select
+                value={userBook?.state || "Want to Read"}
+                onChange={(e) => handleStateChange(e.target.value)}
+              >
+                <option value="Want to Read">Want to Read</option>
+                <option value="Currently Reading">Currently Reading</option>
+                <option value="Read">Read</option>
+              </select>
+            </div>
 
-          <div>
-            <strong>Rating:</strong>
-            {[1, 2, 3, 4, 5].map((star) => (
-              <FaStar
-                key={star}
-                className={`star ${star <= rating ? "filled" : ""}`}
-                onClick={() => handleRatingChange(star)}
-              />
-            ))}
-          </div>
-        </div>
-
-        <div className="reviews-section">
-          <h2>Reviews</h2>
-          {reviewsLoading ? (
-            <p>Loading reviews...</p>
-          ) : reviewsError ? (
-            <p>{reviewsError}</p>
-          ) : reviews.length > 0 ? (
-            reviews.map((review) => (
-              <div key={review._id} className="review">
-                <p>
-                  <strong>
-                    {review.userId.firstName} {review.userId.lastName}
-                  </strong>{" "}
-                  rated this book {review.rating} out of 5
+            <div>
+              <strong>Review:</strong>
+              <textarea value={review} onChange={handleReviewChange} />
+              <button className="submit-button" onClick={handleReviewSubmit}>
+                Submit Review
+              </button>
+              {reviewError && <p className="error-message">{reviewError}</p>}
+              {reviewSubmitted && (
+                <p className="success-message">
+                  Review submitted successfully!
                 </p>
-                <p>{review.review}</p>
-                <p>{new Date(review.createdAt).toLocaleDateString()}</p>
-              </div>
-            ))
-          ) : (
-            <p>No reviews yet. Be the first to review this book!</p>
-          )}
+              )}
+            </div>
+
+            <div>
+              <strong>Rating:</strong>
+              {[1, 2, 3, 4, 5].map((star) => (
+                <FaStar
+                  key={star}
+                  className={`star ${star <= rating ? "filled" : ""}`}
+                  onClick={() => handleRatingChange(star)}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="reviews-section">
+            <h2>Reviews</h2>
+            {reviewsLoading ? (
+              <p>Loading reviews...</p>
+            ) : reviewsError ? (
+              <p>{reviewsError}</p>
+            ) : reviews.length > 0 ? (
+              reviews.map((review) => (
+                <div key={review._id} className="review">
+                  <div className="review-header">
+                    <strong>
+                      {review.userId.firstName} {review.userId.lastName}
+                    </strong>
+                    <span className="review-rating">
+                      rated this book {review.rating} out of 5
+                    </span>
+                  </div>
+                  <p className="review-content">{review.review}</p>
+                  <p className="review-date">
+                    {new Date(review.createdAt).toLocaleDateString()}
+                  </p>
+                </div>
+              ))
+            ) : (
+              <p>No reviews yet. Be the first to review this book!</p>
+            )}
+          </div>
         </div>
       </div>
     </div>
