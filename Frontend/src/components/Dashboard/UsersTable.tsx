@@ -34,7 +34,11 @@ interface DecodedToken {
   id: string;
 }
 
-const UsersTable: React.FC = () => {
+interface UsersTableProps {
+  filterState: string;
+}
+
+const UsersTable: React.FC<UsersTableProps> = ({ filterState }) => {
   const [userBooks, setUserBooks] = useState<UserBook[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
@@ -104,8 +108,7 @@ const UsersTable: React.FC = () => {
             : userBook
         )
       );
-
-      alert("State updated successfully!");
+      
     } catch (error) {
       console.error("Failed to update book state", error);
     }
@@ -161,6 +164,10 @@ const UsersTable: React.FC = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
+  const filteredBooks = filterState === 'All'
+    ? userBooks
+    : userBooks.filter(book => book.state === filterState);
+
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -174,7 +181,7 @@ const UsersTable: React.FC = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {userBooks.map((userBook) => (
+          {filteredBooks.map((userBook) => (
             <TableRow key={userBook._id}>
               <TableCell>
                 {userBook.bookId ? (
