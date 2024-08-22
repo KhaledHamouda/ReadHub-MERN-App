@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const UserBook = require("../models/UserBook");
+const User = require("../models/user");
 
 const findOrCreateUserBook = async (userId, bookId) => {
   let userBook = await UserBook.findOne({ userId, bookId });
@@ -10,26 +11,30 @@ const findOrCreateUserBook = async (userId, bookId) => {
   return userBook;
 };
 
-// Handle retrieving a specific book's user data
-// router.get("/:userId/books", async (req, res) => {
-//   try {
+router.get("/:userId/books", async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { bookId } = req.query;
 
-//     const { userId } = req.params;
-//     const { bookId } = req.query;
-//     const userBook = await UserBook.findOne({ userId, bookId }).populate(
-//       "bookId"
-//     );
-    
-//     if (!userBook) {
-//       return res.status(404).json({ message: "UserBook not found" });
-//     }
+    let userBooks;
 
-//     res.status(200).json(userBook);
-//   } catch (error) {
-//     console.error(error.message);
-//     res.status(500).send("Failed to retrieve user book");
-//   }
-// });
+    if (bookId) {
+      // Fetch a specific book
+      userBooks = await UserBook.findOne({ userId, bookId }).populate("bookId");
+      if (!userBooks) {
+        return res.status(404).json({ message: "UserBook not found" });
+      }
+    } else {
+      // Fetch all books
+      userBooks = await UserBook.find({ userId }).populate("bookId");
+    }
+
+    res.status(200).json(userBooks);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Failed to retrieve user books");
+  }
+});
 
 // Handle updating or adding a user's book state
 router.post("/state", async (req, res) => {
@@ -88,19 +93,6 @@ router.post("/rating", async (req, res) => {
   }
 });
 
-// Handle retrieving all books for a user with their states, reviews, and ratings
-router.get("/:userId/books", async (req, res) => {
-  try {
-    const { userId } = req.params;
-    const userBooks = await UserBook.find({ userId }).populate("bookId").exec();
-
-    res.status(200).json(userBooks);
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).send("Failed to retrieve user books");
-  }
-});
-
 // Handle deleting a user's book review
 router.delete("/review", async (req, res) => {
   try {
@@ -138,6 +130,27 @@ router.delete("/rating", async (req, res) => {
   } catch (error) {
     console.error(error.message);
     res.status(500).send("Failed to delete rating");
+  }
+});
+
+router.get("/reviews/:bookId", async (req, res) => {
+  try {
+    const { bookId } = req.params;
+    const reviews = await UserBook.find({
+      bookId,
+      review: { $exists: true },
+    }).populate("userId", "firstName lastName");
+
+    if (!reviews || reviews.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No reviews found for this book" });
+    }
+
+    res.status(200).json(reviews);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Failed to retrieve reviews");
   }
 });
 

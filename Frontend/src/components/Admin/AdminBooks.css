@@ -1,4 +1,4 @@
-
+/* 
 html, body {
     margin: 0;
     padding: 0;
@@ -15,43 +15,42 @@ html, body {
     padding: 0;
     margin-top: 10px;
     text-align: center;
+} */
+
+.navbar-expand-lg {
+  background-color: #00000028;
 }
 
-
-.navbar-expand-lg{
-    background-color: #00000028;
+tbody,
+tr,
+td {
+  text-align: center;
+  align-items: center;
+}
+.bi {
+  cursor: pointer;
+  color: #0065fd;
+  margin-top: 0;
+}
+.bi-trash-fill {
+  color: #f50000af;
 }
 
-tbody, tr, td{
-    text-align: center;
-    align-items: center;
+.bi-pen-fill {
+  color: rgba(210, 244, 250, 0.87);
 }
-.bi{
-    cursor: pointer;
-    color: #0065fd;
-    margin-top: 0;
+#updateForm {
+  padding: 2rem 1.5rem;
+  width: 700px;
+  height: auto;
+  position: absolute;
+  top: 25rem;
+  left: 33rem;
 }
-.bi-trash-fill{
-    color: #f50000af;
+.form-select {
+  margin: 3px 0px 1rem;
+  padding: 2px;
 }
-
-.bi-pen-fill{
-    color: rgba(210, 244, 250, 0.87);
-}
-#updateForm{
-    padding: 2rem 1.5rem;
-    width:700px;
-    height: auto;
-    position: absolute;
-    top: 25rem;
-    left: 33rem;
-}
-.form-select{
-    margin: 3px 0px 1rem;
-    padding: 2px;
-    
-}
- 
 
 /* ---------------------------------------------------------------------------------------- */
 
@@ -201,7 +200,6 @@ tbody, tr, td{
 /* ----------------------------------------------------------------------------------------- */
 /* General Container */
 
-
 /* Navbar */
 .navbar {
   display: flex;
@@ -334,7 +332,6 @@ tbody, tr, td{
   color: #333;
 }
 
-.bi-plus-circle-fill{
-    color: rgb(0, 204, 255);
+.bi-plus-circle-fill {
+  color: rgb(0, 204, 255);
 }
-  

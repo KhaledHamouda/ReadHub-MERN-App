@@ -3,7 +3,6 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import "./BookList.css";
 
-// Define the types for book and error
 interface Book {
   _id: string;
   title: string;
@@ -53,7 +52,7 @@ const BookList: React.FC = () => {
         ) : currentBooks.length > 0 ? (
           currentBooks.map((book) => (
             <div key={book._id} className="book-item">
-              <Link to={`/books/${book._id}`}>
+              <Link to={`/book/${book._id}`}>
                 <h2>{book.title}</h2>
                 <img src={book.photo} alt={book.title} />
               </Link>

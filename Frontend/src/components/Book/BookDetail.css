@@ -1,0 +1,179 @@
+/* BookDetail.css */
+
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #f8f9fa;
+  color: #212529;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.book-detail {
+  display: flex;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.book-detail img {
+  width: 300px;
+  height: 550px;
+  border-radius: 10px;
+  margin-right: 30px;
+  transition: transform 0.3s ease;
+}
+
+.book-detail img:hover {
+  transform: scale(1.05);
+}
+
+.book-detail-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.book-detail h1 {
+  font-size: 2.2rem;
+  color: #343a40;
+  margin-bottom: 15px;
+}
+
+.book-detail p {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  line-height: 1.6;
+  color: #495057;
+}
+
+.book-detail strong {
+  font-weight: 600;
+  color: #495057;
+}
+
+.book-detail .user-book-info {
+  margin-top: 20px;
+}
+
+.user-book-info select,
+.user-book-info textarea,
+.user-book-info .submit-button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.user-book-info textarea {
+  height: 100px;
+  resize: vertical;
+}
+
+.user-book-info .submit-button {
+  background-color: #007bff;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border: none;
+}
+
+.user-book-info .submit-button:hover {
+  background-color: #0056b3;
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 0.9rem;
+}
+
+.reviews-section {
+  margin-top: 40px;
+}
+
+.reviews-section h2 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+.review {
+  padding: 15px;
+  border-bottom: 1px solid #e9ecef;
+  animation: slideIn 0.5s ease-in-out;
+}
+
+.review:last-child {
+  border-bottom: none;
+}
+
+.review p {
+  margin: 5px 0;
+}
+
+.star {
+  font-size: 1.5rem;
+  color: #ffc107;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.star.filled {
+  color: #ff9800;
+}
+
+.star:hover {
+  color: #ff5722;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .book-detail {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .book-detail img {
+    margin-bottom: 20px;
+    margin-right: 0;
+  }
+
+  .book-detail-content {
+    text-align: center;
+  }
+
+  .reviews-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .review p {
+    font-size: 0.9rem;
+  }
+}

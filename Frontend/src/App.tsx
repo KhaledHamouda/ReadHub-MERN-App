@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 // import { useSelector } from "react-redux";
 
@@ -20,7 +19,7 @@ import CategoryList from "./components/Category/CategoryList";
 import Dashboard from "./pages/Dashboard";
 import LoginForm from "./pages/Login";
 import SignUp from "./pages/SignUp";
-
+import BookDetail from "./components/Book/BookDetail";
 
 function App() {
   const [isAdmin, setIsAdmin] = useState<boolean>(() => {
@@ -45,6 +44,7 @@ function App() {
         />
 
         <Route path="/books" element={<BookList />} />
+        <Route path="/book/:id" element={<BookDetail />} />
         <Route path="/authors" element={<AuthorList />} />
         <Route path="/categories" element={<CategoryList />} />
         <Route path="/admin/books" element={<AdminBooks />} />
@@ -59,7 +59,6 @@ function App() {
         {/* {authState === 'login' && <Route path="/login" element={<LoginForm />} />} */}
         <Route path="/signup" element={<SignUp />} />
         <Route path="*" element={<Navigate to="/" />} />
-
       </Routes>
     </Router>
   );
