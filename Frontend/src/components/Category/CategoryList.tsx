@@ -44,7 +44,7 @@ const CategoryList: React.FC = () => {
         ) : categories.length > 0 ? (
           categories.map((category) => (
             <div key={category.categoryId} className="category-item">
-              <Link to={`/categories/${category.categoryId}`}>
+              <Link to={`/category/${category.categoryId}`}>
                 <h2>{category.categoryName}</h2>
               </Link>
             </div>
