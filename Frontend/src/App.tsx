@@ -25,6 +25,7 @@ import SignUp from "./pages/SignUp";
 =======
 import BookDetail from "./components/Book/BookDetail";
 import CategoryDetail from "./components/Category/CategoryDetail";
+import AuthorDetail from "./components/Author/AuthorDetail";
 >>>>>>> fe04995 ( add categories pages)
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
         <Route path="/admin/books" element={<AdminBooks />} />
         <Route path="/admin/categories" element={<AdminCategory />} />
         <Route path="/admin/authors" element={<AdminAuthor />} />
+        <Route path="/author/:id" element={<AuthorDetail />} />
         <Route path="/category/:id" element={<CategoryDetail />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route

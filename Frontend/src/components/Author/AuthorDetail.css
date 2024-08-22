@@ -1,0 +1,98 @@
+.author-detail {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.author-header {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 30px;
+}
+
+.author-photo {
+  width: 200px;
+  height: 300px;
+  object-fit: cover;
+  margin-right: 20px;
+  border-radius: 10px;
+}
+
+.author-info {
+  max-width: 700px;
+}
+
+.author-info h1 {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+}
+
+.author-info p {
+  font-size: 1.2em;
+  color: #555;
+}
+
+.author-books-section {
+  margin-top: 40px;
+}
+
+.author-books-section h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 10px;
+}
+
+.book {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.book-photo {
+  width: 100px;
+  height: 150px;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.book-info {
+  flex: 1;
+}
+
+.book-info h3 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.book-state-rating {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+.book-state {
+  margin-bottom: 10px;
+}
+
+.book-rating {
+  margin-bottom: 10px;
+}
+
+.star {
+  color: #ccc;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+.star.filled {
+  color: gold;
+}
+
+.average-rating {
+  font-size: 1em;
+  color: #777;
+}
