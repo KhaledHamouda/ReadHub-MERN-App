@@ -11,6 +11,7 @@ import { AdminPanel } from "./components/Admin/AdminPanal";
 import BookList from "./components/Book/BookList";
 import AuthorList from "./components/Author/AuthorList";
 import CategoryList from "./components/Category/CategoryList";
+import CategoryDetail from "./components/Category/CategoryDetail";
 
 function App() {
   const [isAdmin, setIsAdmin] = useState<boolean>(() => {
@@ -36,6 +37,7 @@ function App() {
         <Route path="/books" element={<BookList />} />
         <Route path="/authors" element={<AuthorList />} />
         <Route path="/categories" element={<CategoryList />} />
+        <Route path="/category/:id" element={<CategoryDetail />} />
       </Routes>
     </Router>
   );

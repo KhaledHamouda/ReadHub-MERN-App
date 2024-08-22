@@ -140,4 +140,25 @@ router.delete("/rating", async (req, res) => {
   }
 });
 
+router.get("/reviews/:bookId", async (req, res) => {
+  try {
+    const { bookId } = req.params;
+    const reviews = await UserBook.find({
+      bookId,
+      review: { $exists: true },
+    }).populate("userId", "firstName lastName");
+
+    if (!reviews || reviews.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No reviews found for this book" });
+    }
+
+    res.status(200).json(reviews);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Failed to retrieve reviews");
+  }
+});
+
 module.exports = router;

@@ -2,6 +2,7 @@ const express = require("express");
 // const mongoose = require("mongoose");
 const Category = require("../models/category");
 const route = express.Router();
+const Book = require("../models/Book");
 
 // Category post
 route.post("/", async (req, res) => {
@@ -42,17 +43,27 @@ route.get("/", async (req, res) => {
 route.get("/:id", async (req, res) => {
   const id = req.params.id;
   try {
+    // Fetch the category by ID
     const category = await Category.findOne({ categoryId: id });
+
     if (!category) {
       return res.status(404).json({ message: "Category not found" });
     }
-    res.json(category);
+
+    // Fetch related books
+    const books = await Book.find({ categoryId: category._id }).populate(
+      "authorId"
+    );
+
+    res.json({ categoryName: category.categoryName, books });
   } catch (error) {
     res
       .status(500)
       .json({ message: "An error occurred", error: error.message });
   }
 });
+
+module.exports = route;
 
 // Delete category by id
 route.delete("/:id", async (req, res) => {

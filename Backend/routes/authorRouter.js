@@ -1,15 +1,13 @@
 const express = require("express");
-const multer = require("multer");
 const Author = require("../models/author");
+const Book = require("../models/Book");
+const UserBook = require("../models/UserBook");
 const route = express.Router();
 
-// Set up multer for file upload handling
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
-
-route.post("/", upload.single("authorPhoto"), async (req, res) => {
-  const { authorFirstName, authorLastName, authorDateOfBirth } = req.body;
-  const authorPhoto = req.file;
+// Create a new author
+route.post("/", async (req, res) => {
+  const { authorFirstName, authorLastName, authorDateOfBirth, authorPhoto } =
+    req.body;
 
   if (!authorFirstName) {
     return res.status(400).json({ message: "authorFirstName is required" });
@@ -17,42 +15,30 @@ route.post("/", upload.single("authorPhoto"), async (req, res) => {
 
   try {
     const newAuthor = new Author({
-      authorFirstName: authorFirstName,
-      authorLastName: authorLastName,
-      authorDateOfBirth: authorDateOfBirth, // Optional
-      authorPhoto: authorPhoto
-        ? {
-            data: authorPhoto.buffer, // Get file data from memory
-            contentType: authorPhoto.mimetype,
-          }
-        : undefined,
+      authorFirstName,
+      authorLastName,
+      authorDateOfBirth,
+      authorPhoto,
     });
 
     await newAuthor.save();
     res.status(201).json(newAuthor);
   } catch (error) {
-    if (error.code === 11000) {
-      res
-        .status(400)
-        .json({ message: "Unique constraint error", error: error.message });
-    } else {
-      res
-        .status(500)
-        .json({ message: "An error occurred", error: error.message });
-    }
+    res
+      .status(500)
+      .json({ message: "An error occurred", error: error.message });
   }
 });
 
-// get author photo by ID
+// Get the photo URL by author ID
 route.get("/photo/:id", async (req, res) => {
   const id = req.params.id;
   try {
     const author = await Author.findOne({ _id: id });
-    if (!author || !author.authorPhoto || !author.authorPhoto.data) {
+    if (!author || !author.authorPhoto) {
       return res.status(404).json({ message: "Photo not found" });
     }
-    res.set("Content-Type", author.authorPhoto.contentType);
-    res.send(author.authorPhoto.data);
+    res.json({ photoUrl: author.authorPhoto });
   } catch (error) {
     res
       .status(500)
@@ -60,59 +46,50 @@ route.get("/photo/:id", async (req, res) => {
   }
 });
 
-// Route to update author details and/or photo
-route.put("/:id", upload.single("authorPhoto"), async (req, res) => {
+// Update author details and/or photo URL
+route.put("/:id", async (req, res) => {
   const id = req.params.id;
-  const { authorFirstName, authorLastName, authorDateOfBirth } = req.body;
-  const authorPhoto = req.file; // Get file from multer
+  const { authorFirstName, authorLastName, authorDateOfBirth, authorPhoto } =
+    req.body;
 
   try {
-    // Find the author by ID
     const author = await Author.findOne({ _id: id });
 
     if (!author) {
       return res.status(404).json({ message: "Author not found" });
     }
 
-    // Update author details
     if (authorFirstName) author.authorFirstName = authorFirstName;
     if (authorLastName) author.authorLastName = authorLastName;
     if (authorDateOfBirth) author.authorDateOfBirth = authorDateOfBirth;
+    if (authorPhoto) author.authorPhoto = authorPhoto; // Update the URL
 
-    // Update author photo
-    if (authorPhoto) {
-      author.authorPhoto = {
-        data: authorPhoto.buffer,
-        contentType: authorPhoto.mimetype,
-      };
-    }
-
-    await author.save(); // Save the updated author
+    await author.save();
     res.json(author);
   } catch (error) {
-    if (error.code === 11000) {
-      res
-        .status(400)
-        .json({ message: "Unique constraint error", error: error.message });
-    } else {
-      res
-        .status(500)
-        .json({ message: "An error occurred", error: error.message });
-    }
+    res
+      .status(500)
+      .json({ message: "An error occurred", error: error.message });
   }
 });
 
-// Get the data of all author DB
+// Get all authors
 route.get("/", async (req, res) => {
-  const authors = await Author.find();
-  res.json(authors);
+  try {
+    const authors = await Author.find();
+    res.json(authors);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "An error occurred", error: error.message });
+  }
 });
 
-// Get author by id
+// Get author by ID
 route.get("/:id", async (req, res) => {
   const id = req.params.id;
   try {
-    const author = await Author.findOne({ authorId: id });
+    const author = await Author.findById(id); // Query using _id
     if (!author) {
       return res.status(404).json({ message: "Author not found" });
     }
@@ -124,7 +101,7 @@ route.get("/:id", async (req, res) => {
   }
 });
 
-// Delete author by id
+// Delete author by ID
 route.delete("/:id", async (req, res) => {
   const id = req.params.id;
   try {
@@ -154,4 +131,97 @@ route.delete("/", async (req, res) => {
   }
 });
 
+// Get books by author ID
+route.get("/:id/books", async (req, res) => {
+  const authorId = req.params.id;
+  try {
+    // Find books by the author
+    const books = await Book.find({ authorId });
+
+    // If no books are found, return an empty array
+    if (!books.length) {
+      return res.json([]);
+    }
+
+    // Iterate over each book and calculate average rating and rating count
+    const booksWithRatings = await Promise.all(
+      books.map(async (book) => {
+        const userBooks = await UserBook.find({ bookId: book._id });
+
+        const ratingCount = userBooks.length;
+        const totalRating = userBooks.reduce(
+          (sum, userBook) => sum + (userBook.rating || 0),
+          0
+        );
+        const averageRating = ratingCount > 0 ? totalRating / ratingCount : 0;
+
+        return {
+          ...book.toObject(),
+          averageRating: averageRating.toFixed(2),
+          ratingCount,
+        };
+      })
+    );
+
+    res.json(booksWithRatings);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "An error occurred", error: error.message });
+  }
+});
+
+route.get("/:id/details", async (req, res) => {
+  const authorId = req.params.id;
+
+  try {
+    // Find the author
+    const author = await Author.findById(authorId);
+    if (!author) {
+      return res.status(404).json({ message: "Author not found" });
+    }
+
+    // Find books by the author
+    const books = await Book.find({ authorId });
+    if (books.length === 0) {
+      return res.json({
+        author,
+        averageRating: 0,
+        ratingCount: 0,
+        bookStates: [],
+        message: "This author has no books with ratings",
+      });
+    }
+
+    // Aggregate ratings and states for all books by the author
+    const bookIds = books.map((book) => book._id);
+    const userBooks = await UserBook.find({ bookId: { $in: bookIds } });
+
+    // Calculate average rating and rating count
+    const ratingCount = userBooks.length;
+    const totalRating = userBooks.reduce(
+      (sum, userBook) => sum + (userBook.rating || 0),
+      0
+    );
+    const averageRating = ratingCount > 0 ? totalRating / ratingCount : 0;
+
+    // Collect book states
+    const bookStates = userBooks.map((userBook) => ({
+      bookId: userBook.bookId,
+      state: userBook.state,
+      rating: userBook.rating,
+    }));
+
+    res.json({
+      author,
+      averageRating: averageRating.toFixed(2), // round to 2 decimal places
+      ratingCount,
+      bookStates, // Send back book states along with ratings
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "An error occurred", error: error.message });
+  }
+});
 module.exports = route;
