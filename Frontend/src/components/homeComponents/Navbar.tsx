@@ -29,20 +29,26 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { styled } from "@mui/material/styles";
-import { changeMood, setloginState, setOpenSearchDialog, setUserData } from "../../Redux/DataSlice";
+import {
+  changeMood,
+  setloginState,
+  setOpenSearchDialog,
+  setUserData,
+} from "../../Redux/DataSlice";
 import { scroller } from "react-scroll";
 import { useNavigate } from "react-router";
-import SearchIcon from '@mui/icons-material/Search';
+import SearchIcon from "@mui/icons-material/Search";
 import { SearchDialog } from "../../assets/SearchDialog";
 
 // Styled components
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
-  background: theme.palette.mode === 'light'
-    // ? "linear-gradient(135deg, #6a11cb 0%, #2575fc 100%)"
-    // ? "rgb(152, 171, 238)"
-    // ?"rgb(204, 224, 172)"
-    ?"rgb(78, 49, 170)"
-    : "linear-gradient(45deg, #333 30%, #555 90%)",
+  background:
+    theme.palette.mode === "light"
+      ? // ? "linear-gradient(135deg, #6a11cb 0%, #2575fc 100%)"
+        // ? "rgb(152, 171, 238)"
+        // ?"rgb(204, 224, 172)"
+        "rgb(78, 49, 170)"
+      : "linear-gradient(45deg, #333 30%, #555 90%)",
   border: 0,
   borderRadius: 3,
   boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
@@ -64,8 +70,10 @@ const Navbar: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const pages = ["Home", "Books", "Categories", "Authors"];
-  console.log(`loginstate: ${loginState}`)
-  const settings = loginState ? ["Profile", "Dashboard", "Logout"] : ["Login", "Admin"];
+  console.log(`loginstate: ${loginState}`);
+  const settings = loginState
+    ? ["Profile", "Dashboard", "Logout"]
+    : ["Login", "Admin"];
 
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const { mode } = useSelector((state: any) => state.DataReducer);
@@ -76,19 +84,32 @@ const Navbar: React.FC = () => {
 
   const handleDrawerClose = (page: string) => {
     setOpen(false);
-    if (page !== "") scrollToSection(page);
+    switch (page) {
+      case "Home":
+        navigate("/");
+        break;
+      case "Books":
+        navigate("/books");
+        break;
+      case "Categories":
+        navigate("/categories");
+        break;
+      case "Authors":
+        navigate("/authors");
+        break;
+    }
   };
 
   const handleDrawerNavigate = (page: string) => {
     setAnchorElUser(null);
     setOpen(false);
-    if (page.toLowerCase() === 'login') {
-      navigate('/login');
-    } else if (page === 'profile') {
-      console.log("profiler")
+    if (page.toLowerCase() === "login") {
+      navigate("/login");
+    } else if (page === "profile") {
+      console.log("profiler");
       navigate(`/${page}/${sessionStorage.getItem("id")}`);
-    } else if (page === 'Logout') {
-      dispatch(setloginState(false))
+    } else if (page === "Logout") {
+      dispatch(setloginState(false));
       sessionStorage.clear();
       dispatch(setUserData({}));
       sessionStorage.removeItem("img");
@@ -216,8 +237,18 @@ const Navbar: React.FC = () => {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={() => handleDrawerNavigate(setting)}>
-                  <Typography style={{ color: theme.palette.mode === "light" ? "black" : "white" }} textAlign="center">{setting}</Typography>
+                <MenuItem
+                  key={setting}
+                  onClick={() => handleDrawerNavigate(setting)}
+                >
+                  <Typography
+                    style={{
+                      color: theme.palette.mode === "light" ? "black" : "white",
+                    }}
+                    textAlign="center"
+                  >
+                    {setting}
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -238,13 +269,21 @@ const Navbar: React.FC = () => {
         >
           <DrawerHeader>
             <IconButton onClick={() => handleDrawerClose("")}>
-              {theme.direction === "ltr" ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+              {theme.direction === "ltr" ? (
+                <ChevronLeftIcon />
+              ) : (
+                <ChevronRightIcon />
+              )}
             </IconButton>
           </DrawerHeader>
           <Divider />
           <List>
             {pages.map((page, index) => (
-              <ListItem button key={page} onClick={() => handleDrawerClose(page)}>
+              <ListItem
+                button
+                key={page}
+                onClick={() => handleDrawerClose(page)}
+              >
                 <ListItemIcon>
                   {index === 0 ? <HomeIcon /> : null}
                   {index === 1 ? <MenuBookIcon /> : null}
