@@ -1,61 +1,86 @@
 .author-detail {
-  max-width: 1000px;
-  margin: 0 auto;
+  max-width: 1200px;
+  margin: 40px auto;
   padding: 20px;
-  font-family: Arial, sans-serif;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.8s ease-in-out;
 }
 
 .author-header {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   margin-bottom: 30px;
 }
 
 .author-photo {
-  width: 200px;
+  width: 300px;
   height: 300px;
-  object-fit: cover;
-  margin-right: 20px;
-  border-radius: 10px;
+  border-radius: 50%;
+  margin-right: 30px;
+  transition: transform 0.3s ease;
+}
+
+.author-photo:hover {
+  transform: scale(1.05);
 }
 
 .author-info {
-  max-width: 700px;
+  flex: 1;
 }
 
 .author-info h1 {
-  font-size: 2.5em;
+  font-family: "Poppins", sans-serif;
+  font-size: 2.2rem;
+  color: rgb(78, 49, 170);
   margin-bottom: 10px;
 }
 
 .author-info p {
-  font-size: 1.2em;
-  color: #555;
+  font-size: 1.1rem;
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 10px;
+  background-color: #f8f9fa;
+  padding: 10px;
+  border-radius: 5px;
 }
 
 .author-books-section {
   margin-top: 40px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .author-books-section h2 {
-  font-size: 2em;
+  font-size: 1.8rem;
   margin-bottom: 20px;
-  border-bottom: 2px solid #ccc;
-  padding-bottom: 10px;
+  color: rgb(78, 49, 170);
+  text-align: center;
 }
 
 .book {
   display: flex;
-  align-items: flex-start;
-  margin-bottom: 20px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #ddd;
+  align-items: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.book:hover {
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
 }
 
 .book-photo {
-  width: 100px;
-  height: 150px;
-  object-fit: cover;
+  width: 150px;
+  height: 220px;
+  border-radius: 10px;
   margin-right: 20px;
 }
 
@@ -64,35 +89,81 @@
 }
 
 .book-info h3 {
-  font-size: 1.5em;
+  font-size: 1.5rem;
+  color: rgb(78, 49, 170);
   margin-bottom: 10px;
 }
 
 .book-state-rating {
   display: flex;
-  flex-direction: column;
-  margin-top: 10px;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 15px;
 }
 
-.book-state {
-  margin-bottom: 10px;
+.book-state select {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ced4da;
+  font-size: 1rem;
+  background-color: #f8f9fa;
 }
 
-.book-rating {
-  margin-bottom: 10px;
-}
-
-.star {
-  color: #ccc;
-  font-size: 1.5em;
+.book-rating .star {
+  font-size: 1.5rem;
+  color: #ffc107;
   cursor: pointer;
+  transition: color 0.3s ease;
 }
 
-.star.filled {
-  color: gold;
+.book-rating .star.filled {
+  color: #ff9800;
+}
+
+.book-rating .star:hover {
+  color: #ff5722;
 }
 
 .average-rating {
-  font-size: 1em;
-  color: #777;
+  font-size: 1rem;
+  color: #333;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .author-header {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .author-photo {
+    margin-bottom: 20px;
+  }
+
+  .author-info {
+    text-align: center;
+  }
+
+  .book {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .book-photo {
+    margin-bottom: 20px;
+  }
+
+  .book-info {
+    text-align: center;
+  }
 }
