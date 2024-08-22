@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { useSelector } from 'react-redux';
 
@@ -54,13 +53,15 @@ const SidePanal: React.FC<SidePanalProps> = ({ selectedTab, onTabChange }) => {
 
     return (
         <Box sx={{
-            flexGrow: 1,
+            width: 250, 
             bgcolor: 'background.paper',
             display: 'flex',
-            height: "100vh",
-            width: "100%",
-            overflow: 'hidden'
-        }} >
+            flexDirection: 'column',
+            height: '100%',
+            overflowY: 'auto',
+            borderRight: 1,
+            borderColor: 'divider',
+        }}>
             <Tabs
                 orientation="vertical"
                 variant="scrollable"
@@ -69,8 +70,8 @@ const SidePanal: React.FC<SidePanalProps> = ({ selectedTab, onTabChange }) => {
                 aria-label="Vertical tabs example"
                 sx={{
                     background: mode === 'light' ? "rgb(55, 149, 189)" : "rgba(38, 40, 51, .5)",
-                    minWidth: 200,
                     color: 'white',
+                    height:"100vh",
                     fontSize: 20,
                     '& .Mui-selected': {
                         color: 'green',

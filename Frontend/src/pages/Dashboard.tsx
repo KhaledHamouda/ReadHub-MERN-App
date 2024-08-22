@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider, Box } from '@mui/material';
 import Navbar from '../components/homeComponents/Navbar';
 import SidePanal from '../components/Dashboard/SidePanal';
 import UsersTable from '../components/Dashboard/UsersTable';
-// import Footer from '../components/homeComponents/Footer';
 
 function Dashboard() {
     const { mode } = useSelector((state: any) => state.DataReducer);
@@ -13,6 +12,10 @@ function Dashboard() {
     const theme = createTheme({
         palette: {
             mode: mode || 'light',
+            background: {
+                default: mode === 'light' ? '#fff' : '#121212',
+                paper: mode === 'light' ? '#fff' : '#1e1e1e', 
+            },
         },
     });
 
@@ -20,12 +23,30 @@ function Dashboard() {
         setSelectedTab(newValue);
     };
 
+    const getFilterState = () => {
+        switch (selectedTab) {
+            case 1:
+                return 'Read';
+            case 2:
+                return 'Currently Reading';
+            case 3:
+                return 'Want to Read';
+            default:
+                return 'All';
+        }
+    };
+
     return (
         <ThemeProvider theme={theme}>
-            <Navbar />
-            <SidePanal selectedTab={selectedTab} onTabChange={handleTabChange} />
-            <UsersTable />
-            {/* <Footer /> */}
+            <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
+                <Navbar />
+                <Box sx={{ flex: 1, display: 'flex' }}>
+                    <SidePanal selectedTab={selectedTab} onTabChange={handleTabChange} />
+                    <Box sx={{ flex: 1 }}>
+                        <UsersTable filterState={getFilterState()} />
+                    </Box>
+                </Box>
+            </Box>
         </ThemeProvider>
     );
 }
