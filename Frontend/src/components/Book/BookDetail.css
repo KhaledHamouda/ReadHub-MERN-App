@@ -1,22 +1,13 @@
 /* BookDetail.css */
 
-body {
-  font-family: "Arial", sans-serif;
-  background-color: #f8f9fa;
-  color: #212529;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 .book-detail {
   display: flex;
   max-width: 1200px;
   margin: 40px auto;
   padding: 20px;
   background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
   animation: fadeIn 0.8s ease-in-out;
 }
 
@@ -40,24 +31,28 @@ body {
 }
 
 .book-detail h1 {
+  font-family: "Poppins", sans-serif;
   font-size: 2.2rem;
-  color: #343a40;
+  color: rgb(78, 49, 170);
   margin-bottom: 15px;
 }
 
 .book-detail p {
-  font-size: 1rem;
-  margin-bottom: 10px;
+  font-size: 1.1rem;
+  color: #333;
   line-height: 1.6;
-  color: #495057;
+  margin-bottom: 15px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f8f9fa;
 }
 
 .book-detail strong {
   font-weight: 600;
-  color: #495057;
+  color: rgb(78, 49, 170);
 }
 
-.book-detail .user-book-info {
+.user-book-info {
   margin-top: 20px;
 }
 
@@ -78,7 +73,7 @@ body {
 }
 
 .user-book-info .submit-button {
-  background-color: #007bff;
+  background-color: rgb(78, 49, 170);
   color: #ffffff;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -86,7 +81,7 @@ body {
 }
 
 .user-book-info .submit-button:hover {
-  background-color: #0056b3;
+  background-color: rgb(100, 60, 190);
 }
 
 .error-message {
@@ -94,27 +89,81 @@ body {
   font-size: 0.9rem;
 }
 
+.success-message {
+  color: #28a745;
+  font-size: 0.9rem;
+}
 .reviews-section {
   margin-top: 40px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .reviews-section h2 {
   font-size: 1.8rem;
   margin-bottom: 20px;
+  color: rgb(78, 49, 170);
+  text-align: center;
 }
 
 .review {
   padding: 15px;
   border-bottom: 1px solid #e9ecef;
-  animation: slideIn 0.5s ease-in-out;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
 }
 
 .review:last-child {
   border-bottom: none;
 }
 
-.review p {
-  margin: 5px 0;
+.review:hover {
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.review-header strong {
+  font-size: 1.2rem;
+  color: rgb(78, 49, 170);
+}
+
+.review-rating {
+  font-size: 1rem;
+  color: #666;
+  margin-left: 10px;
+}
+
+.review-date {
+  font-size: 0.9rem;
+  color: #888;
+  margin-top: 5px;
+}
+
+.review-content {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .reviews-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .review {
+    padding: 10px;
+  }
 }
 
 .star {
