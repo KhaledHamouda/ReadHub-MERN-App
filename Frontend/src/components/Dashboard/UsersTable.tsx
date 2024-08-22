@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import { jwtDecode } from 'jwt-decode';
 import axiosInstance from '../../axios';
+import { string } from 'zod';
+import axios from 'axios';
 
 interface Book {
+    _id: string;
     title: string;
     photo: string;
 }
@@ -32,37 +35,70 @@ const UsersTable: React.FC<UsersTableProps> = ({ filterState }) => {
     const [userBooks, setUserBooks] = useState<UserBook[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<Error | null>(null);
+    const [stateData, setStateData] = useState({
+        userId: '',
+        bookId: '',
+        state: ''
+    });
+    const [token, setToken] = useState<string>('') 
 
     useEffect(() => {
-        const fetchUserBooks = async () => {
-            try {
-                const token = sessionStorage.getItem('userToken');
-
-                if (!token) {
-                    throw new Error('No token found');
-                }
-
-                const decodedToken = jwtDecode<DecodedToken>(token);
-                const userId = decodedToken.id;
-
-                // const response = await axiosInstance.get(`/userbook/${userId}/books`);
-                const response = await axiosInstance.get(`/userbook/66bbf2a4cf1531046658843b/books`);
-                
-                setUserBooks(response.data);
-            } catch (err: any) {
-                setError({ message: err.message });
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchUserBooks();
     }, []);
+
+    const fetchUserBooks = async () => {
+        try {
+            const token = sessionStorage.getItem('userToken');
+
+            if (!token) {
+                throw new Error('No token found');
+            }
+
+            const decodedToken = jwtDecode<DecodedToken>(token);
+            const userId = decodedToken.id;
+            setToken(userId)
+
+            const response = await axiosInstance.get(`/userbook/${userId}/books`);
+            
+            
+            setUserBooks(response.data);
+           
+        } catch (err: any) {
+            setError({ message: err.message });
+        } finally {
+            setLoading(false);
+        }
+    };
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error.message}</div>;
 
     const filteredBooks = filterState === 'All' ? userBooks : userBooks.filter(book => book.state === filterState);
+
+    const handleChangeState = async (e: React.ChangeEvent<HTMLSelectElement>, userId: string, book: Book) => {
+        const { value } = e.target;
+
+        console.log(value)
+        console.log(userId)
+        console.log(book._id)
+    
+        // Directly use the values in the API call
+        try {
+            const response = await axios.post('http://localhost:3100/userbook/state', {
+                userId: userId,
+                bookId: book._id,
+                state: value
+            });
+            
+            if (response.data) {
+                fetchUserBooks(); // Refresh the data
+            } else {
+                alert('Error Changing State!');
+            }
+        } catch (err) {
+            console.error('Error: ' + err);
+        }
+    };
 
     return (
         <TableContainer component={Paper}>
@@ -85,7 +121,17 @@ const UsersTable: React.FC<UsersTableProps> = ({ filterState }) => {
                                 ) : 'No cover'}
                             </TableCell>
                             <TableCell>{userBook.bookId ? userBook.bookId.title : 'No Title'}</TableCell>
-                            <TableCell>{userBook.state}</TableCell>
+                            <TableCell>
+
+                                <select name='state' className="form-select form-select-sm" aria-label="Small select example" style={{width: 160}}
+                                onChange={(e) => {handleChangeState(e, token, userBook.bookId)}}>
+                                    <option defaultValue={userBook.state} disabled value={userBook.state}>{userBook.state}</option>
+                                    <option value="Want to Read">Want to Read</option>
+                                    <option value="Currently Reading">Currently Reading</option>
+                                    <option value="Read">Read</option>
+                                </select>
+
+                            </TableCell>
                             <TableCell>{userBook.rating !== undefined ? userBook.rating : 'N/A'}</TableCell>
                             <TableCell>{userBook.review || 'N/A'}</TableCell>
                         </TableRow>

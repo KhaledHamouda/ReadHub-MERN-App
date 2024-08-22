@@ -103,7 +103,7 @@ const CategoriesSlider: React.FC = () => {
                 </CardContent>
               </Card>
             }
-            onClick={() => navigate(`category/${currItem._id}`)}
+            onClick={() => {navigate(`category/${currItem._id}`), console.log(currItem._id)}}
           />
         ))}
       </Tabs>

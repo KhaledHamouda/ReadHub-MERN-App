@@ -17,6 +17,9 @@
     text-align: center;
 } */
 
+.form{
+  text-align: center;
+}
 .navbar-expand-lg {
   background-color: #00000028;
 }
@@ -27,6 +30,7 @@ td {
   text-align: center;
   align-items: center;
 }
+
 .bi {
   cursor: pointer;
   color: #0065fd;
@@ -51,6 +55,7 @@ td {
   margin: 3px 0px 1rem;
   padding: 2px;
 }
+
 
 /* ---------------------------------------------------------------------------------------- */
 

@@ -13,6 +13,7 @@ import AdminBooks from "./components/Admin/AdminBooks";
 import AdminCategory from "./components/Admin/adminCategory";
 import AdminAuthor from "./components/Admin/adminAuthor";
 import Home from "./pages/Home";
+
 import BookList from "./components/Book/BookList";
 import AuthorList from "./components/Author/AuthorList";
 import CategoryList from "./components/Category/CategoryList";
@@ -38,7 +39,9 @@ function App() {
     <Router>
       <Routes>
         <Route path="/home" element={<Home />} />
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home />} />\
+        {/* <Route path="/read" element={<Read />} />
+        <Route path="/want-to-read" element={<WantToRead />} /> */}
 
         <Route
           path="/admin"

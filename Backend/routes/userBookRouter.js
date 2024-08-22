@@ -40,6 +40,7 @@ router.get("/:userId/books", async (req, res) => {
 router.post("/state", async (req, res) => {
   try {
     const { userId, bookId, state } = req.body;
+    console.log(userId, bookId, state)
     const validStates = ["Read", "Currently Reading", "Want to Read"];
     if (!validStates.includes(state)) {
       return res.status(400).json({ message: "Invalid state" });
@@ -60,6 +61,7 @@ router.post("/state", async (req, res) => {
 router.post("/review", async (req, res) => {
   try {
     const { userId, bookId, review } = req.body;
+
 
     const userBook = await findOrCreateUserBook(userId, bookId);
     userBook.review = review;
