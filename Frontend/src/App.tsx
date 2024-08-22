@@ -19,16 +19,10 @@ import CategoryList from "./components/Category/CategoryList";
 import Dashboard from "./pages/Dashboard";
 import LoginForm from "./pages/Login";
 import SignUp from "./pages/SignUp";
-<<<<<<< HEAD
+import BookDetail from "./components/Book/BookDetail";
+import CategoryDetail from "./components/Category/CategoryDetail";
+import AuthorDetail from "./components/Author/AuthorDetail";
 
-=======
-import BookDetail from "./components/Book/BookDetail";
-import CategoryDetail from "./components/Category/CategoryDetail";
-import AuthorDetail from "./components/Author/AuthorDetail";
->>>>>>> fe04995 ( add categories pages)
-import BookDetail from "./components/Book/BookDetail";
-import CategoryDetail from "./components/Category/CategoryDetail";
-import AuthorDetail from "./components/Author/AuthorDetail";
 
 function App() {
   const [isAdmin, setIsAdmin] = useState<boolean>(() => {
