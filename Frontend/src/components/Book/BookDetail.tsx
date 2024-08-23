@@ -17,6 +17,8 @@ interface Book {
   authorName: string;
   categoryName: string;
   description: string;
+  authorId:any;
+  categoryId:any;
 }
 
 interface Review {
