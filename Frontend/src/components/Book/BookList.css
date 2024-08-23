@@ -1,69 +1,101 @@
 .book-list {
-  background-color: #fff;
+  padding: 40px;
+  background-color: #f9f9f9;
+}
+
+.book-list h1 {
+  font-family: "Poppins", sans-serif;
+  font-size: 2.5rem;
+  color: rgb(78, 49, 170);
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.book-items {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px;
-  padding: 20px;
-  justify-items: center;
-  align-items: center;
 }
 
 .book-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   text-align: center;
-  width: 200px;
-  padding: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-}
-
-.book-item:hover {
-  transform: translateY(-5px);
+  padding: 20px;
 }
 
 .book-item img {
-  width: 100%;
-  height: 300px;
+  max-width: 100%;
+  height: 250px;
   object-fit: cover;
-  margin-bottom: 10px;
+  border-radius: 10px;
 }
 
 .book-item h2 {
-  font-size: 16px;
-  margin: 10px 0;
-  color: #000000;
+  font-family: "Poppins", sans-serif;
+  font-size: 1.5rem;
+  color: rgb(78, 49, 170);
+  margin: 15px 0 10px;
+}
+
+.book-item:hover {
+  transform: translateY(-10px);
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.book-item a {
+  text-decoration: none;
+  color: inherit;
 }
 
 .pagination {
   display: flex;
   justify-content: center;
-  list-style-type: none;
-  padding: 0;
+  list-style: none;
   margin-top: 20px;
 }
 
+.pagination li {
+  margin: 0 50px;
+}
+
 .pagination button {
-  background-color: #0073e6;
+  background-color: rgb(78, 49, 170);
   color: white;
   border: none;
   padding: 10px 15px;
-  margin: 0 5px;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
+  font-size: 1rem;
   transition: background-color 0.3s ease;
 }
 
 .pagination button:hover {
-  background-color: #005bb5;
-}
-
-.pagination button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
+  background-color: rgb(100, 60, 190);
 }
 
 .pagination .active button {
-  background-color: #004080;
+  background-color: rgb(50, 30, 120);
+}
+
+.pagination button:disabled {
+  background-color: grey;
+  cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+  .book-list {
+    padding: 20px;
+  }
+
+  .book-items {
+    grid-template-columns: 1fr;
+  }
+
+  .book-item {
+    padding: 15px;
+  }
 }

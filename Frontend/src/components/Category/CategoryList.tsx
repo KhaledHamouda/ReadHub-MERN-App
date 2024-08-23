@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import "./CategoryList.css";
+import NavBar from "../homeComponents/Navbar";
 
 interface Category {
   categoryId: number;
@@ -36,6 +37,7 @@ const CategoryList: React.FC = () => {
 
   return (
     <div>
+      <NavBar />
       <div className="category-list">
         {loading ? (
           <p>Loading categories...</p>
