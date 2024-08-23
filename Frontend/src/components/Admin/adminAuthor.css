@@ -31,10 +31,10 @@
 }
 
 .author-photo {
-  width: 50px; /* Adjust the width as needed */
-  height: 50px; /* Adjust the height as needed */
-  object-fit: cover; /* Ensure the image fits well */
-  border-radius: 50%; /* Optional: make the image round */
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .authors-wrapper {
