@@ -75,6 +75,9 @@ const AdminCategory: React.FC = () => {
   return (
     <div className="categories-container">
       <nav className="navbar">
+        <button onClick={() => handleNavigation("/")} className="nav-button">
+          Home
+        </button>
         <button
           onClick={() => handleNavigation("/admin/categories")}
           className="nav-button"

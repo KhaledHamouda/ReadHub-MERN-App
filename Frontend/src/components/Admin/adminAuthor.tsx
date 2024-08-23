@@ -421,8 +421,11 @@ const AdminAuthor: React.FC = () => {
   return (
     <div className="authors-container">
       <nav className="navbar">
+        <button onClick={() => handleNavigation("/")} className="nav-button">
+          Home
+        </button>
         <button
-          onClick={() => handleNavigation("/admin/category")}
+          onClick={() => handleNavigation("/admin/categories")}
           className="nav-button"
         >
           Categories
@@ -434,7 +437,7 @@ const AdminAuthor: React.FC = () => {
           Books
         </button>
         <button
-          onClick={() => handleNavigation("/admin/author")}
+          onClick={() => handleNavigation("/admin/authors")}
           className="nav-button"
         >
           Authors

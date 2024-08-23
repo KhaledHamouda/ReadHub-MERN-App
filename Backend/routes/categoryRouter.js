@@ -93,4 +93,38 @@ route.delete("/", async (req, res) => {
   }
 });
 
+// Edit category by id
+route.put("/:id", async (req, res) => {
+  const id = req.params.id;
+  const { categoryName } = req.body;
+
+  if (!categoryName) {
+    return res.status(400).json({ message: "categoryName is required" });
+  }
+
+  try {
+    const updatedCategory = await Category.findOneAndUpdate(
+      { categoryId: id },
+      { categoryName },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedCategory) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+
+    res.json({ message: "Category updated successfully", updatedCategory });
+  } catch (error) {
+    if (error.code === 11000) {
+      res
+        .status(400)
+        .json({ message: "Unique constraint error", error: error.message });
+    } else {
+      res
+        .status(500)
+        .json({ message: "An error occurred", error: error.message });
+    }
+  }
+});
+
 module.exports = route;
