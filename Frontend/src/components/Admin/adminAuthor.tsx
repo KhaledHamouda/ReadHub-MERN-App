@@ -403,7 +403,7 @@ const AdminAuthor: React.FC = () => {
           authorFirstName: firstName,
           authorLastName: lastName,
           authorDateOfBirth: dateOfBirth,
-          photoUrl: photoUrl, // Add this line
+          photoUrl: photoUrl,
         });
         console.log("New author added successfully");
         const response = await axios.get("http://localhost:3100/authors");
