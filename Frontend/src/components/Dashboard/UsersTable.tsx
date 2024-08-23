@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import axiosInstance from '../../axios';
 import { string } from 'zod';
-import axios from 'axios';
+
 import {
   Table,
   TableBody,
@@ -44,7 +44,7 @@ const UsersTable: React.FC<UsersTableProps> = ({ filterState }) => {
     const [userBooks, setUserBooks] = useState<UserBook[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<Error | null>(null);
-   
+   console.log(`filterState is ${filterState}`)
 
     useEffect(() => {
         fetchUserBooks();
@@ -172,7 +172,9 @@ const UsersTable: React.FC<UsersTableProps> = ({ filterState }) => {
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error.message}</div>;
 
+    //console.log(filterState)
     const filteredBooks = filterState === 'All' ? userBooks : userBooks.filter(book => book.state === filterState);
+    // console.log(filteredBooks)
 
     
   if (loading) return <div>Loading: {loading}</div>;
@@ -192,7 +194,7 @@ const UsersTable: React.FC<UsersTableProps> = ({ filterState }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {userBooks.map((userBook) => (
+            {filteredBooks.map((userBook) => (
               <TableRow key={userBook._id}>
                 <TableCell>
                   {userBook.bookId ? (

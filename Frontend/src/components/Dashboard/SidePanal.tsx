@@ -45,7 +45,7 @@ function a11yProps(index: number) {
 
 interface SidePanalProps {
     selectedTab: number;
-    onTabChange: (newValue:any) => void;
+    onTabChange: (newValue: number) => void;
 }
 
 const SidePanal: React.FC<SidePanalProps> = ({ selectedTab, onTabChange }) => {
@@ -66,7 +66,7 @@ const SidePanal: React.FC<SidePanalProps> = ({ selectedTab, onTabChange }) => {
                 orientation="vertical"
                 variant="scrollable"
                 value={selectedTab}
-                onChange={(newValue) => onTabChange(newValue)}
+                onChange={(event, newValue) => onTabChange(newValue)}
                 aria-label="Vertical tabs example"
                 sx={{
                     background: mode === 'light' ? "rgb(55, 149, 189)" : "rgba(38, 40, 51, .5)",
