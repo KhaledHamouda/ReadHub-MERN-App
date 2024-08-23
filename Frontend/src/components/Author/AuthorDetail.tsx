@@ -6,6 +6,13 @@ import { FaStar } from "react-icons/fa";
 import "./AuthorDetail.css";
 import Navbar from "../homeComponents/Navbar";
 
+
+// handle back button in browser
+window.onpopstate = function() {
+  window.location.href = "/authors";
+};
+
+
 interface DecodedToken {
   id: string;
   admin: boolean;

@@ -21,6 +21,11 @@ interface Category {
   books: Book[];
 }
 
+// handle back button in browser
+window.onpopstate = function() {
+  window.location.href = "/category";
+};
+
 const CategoryDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [category, setCategory] = useState<Category | null>(null);

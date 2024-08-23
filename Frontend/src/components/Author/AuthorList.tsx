@@ -6,7 +6,7 @@ import Navbar from "../homeComponents/Navbar";
 
 interface Author {
   _id: string;
-  photo: string;
+  authorPhoto: string;
   authorFirstName: string;
   authorLastName: string;
 }
@@ -51,7 +51,7 @@ const AuthorList: React.FC = () => {
     <div>
       <Navbar />
       <div className="author-list">
-        <h1>Author List</h1>
+        <h1>Authors List</h1>
         <div className="author-items">
           {loading ? (
             <p>Loading authors...</p>
@@ -59,10 +59,10 @@ const AuthorList: React.FC = () => {
             <p>{error}</p>
           ) : currentAuthors.length > 0 ? (
             currentAuthors.map((author) => (
-              <div key={author._id} className="author-item">
+              <div key={author._id} className="author-item" style={{cursor: 'pointer'}}>
                 <Link to={`/author/${author._id}`}>
                   <img
-                    src={author.photo}
+                    src={author.authorPhoto}
                     alt={`${author.authorFirstName} ${author.authorLastName}`}
                   />
                   <h2>{`${author.authorFirstName} ${author.authorLastName}`}</h2>
