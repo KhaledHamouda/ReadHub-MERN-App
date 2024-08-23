@@ -116,8 +116,7 @@ const UsersTable: React.FC<UsersTableProps> = ({ filterState }) => {
             : userBook
         )
       );
-
-      alert("State updated successfully!");
+      
     } catch (error) {
       console.error("Failed to update book state", error);
     }

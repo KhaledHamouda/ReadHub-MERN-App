@@ -173,6 +173,9 @@ export default function AdminBooks() {
     <div className="collapse navbar-collapse" id="navbarText">
       <ul className="navbar-nav me-auto mb-2 mb-lg-0">
         <li className="nav-item mx-2">
+          <a className="nav-link fw-bold rounded border border-primary bg-info" href="/">Home</a>
+        </li>
+        <li className="nav-item mx-2">
           <a className="nav-link fw-bold rounded border border-primary bg-info" href="/admin/categories">Categories</a>
         </li>
         <li className="nav-item mx-2">

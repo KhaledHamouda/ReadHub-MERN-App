@@ -3,23 +3,22 @@ const AutoIncrement = require("mongoose-sequence")(mongoose);
 const Schema = mongoose.Schema;
 
 const authorSchema = new Schema({
-  authorId: { 
-    type: Number, 
-    unique: true, 
-    required: false 
+  authorId: {
+    type: Number,
+    unique: true,
+    required: false,
   },
 
-  authorPhoto: { 
-    type: String, 
-    contentType: String 
+  authorPhoto: {
+    type: String,
+    contentType: String,
   },
 
-  authorFirstName: { 
-    type: String, 
-    unique: true, 
-    required: true 
+  authorFirstName: {
+    type: String,
+    required: true,
   },
-  
+
   authorLastName: String,
   authorDateOfBirth: Date,
 });

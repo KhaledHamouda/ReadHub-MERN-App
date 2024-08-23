@@ -84,6 +84,10 @@ const Navbar: React.FC = () => {
 
   const handleDrawerClose = (page: string) => {
     setOpen(false);
+    if (page === "Home" && loginState) {
+      navigate("/dashboard");
+      return;
+    }
     switch (page) {
       case "Home":
         navigate("/");
