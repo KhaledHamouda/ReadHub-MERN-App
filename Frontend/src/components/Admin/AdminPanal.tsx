@@ -118,60 +118,60 @@ export const AdminPanel: React.FC = () => {
     }
   };
 
-  const handleUpdateCategory = async (id: string, name: string) => {
-    try {
-      const response = await axiosInstance.put(`/categories/${id}`, {
-        categoryName: name,
-      });
-      setCategories(
-        categories.map((category) =>
-          category._id === id ? response.data : category
-        )
-      );
-    } catch (error) {
-      console.error("Error updating category:", error);
-    }
-  };
+  // const handleUpdateCategory = async (id: string, name: string) => {
+  //   try {
+  //     const response = await axiosInstance.put(`/categories/${id}`, {
+  //       categoryName: name,
+  //     });
+  //     setCategories(
+  //       categories.map((category) =>
+  //         category._id === id ? response.data : category
+  //       )
+  //     );
+  //   } catch (error) {
+  //     console.error("Error updating category:", error);
+  //   }
+  // };
 
-  const handleUpdateAuthor = async (
-    id: string,
-    firstName: string,
-    lastName: string,
-    dob?: string
-  ) => {
-    try {
-      const response = await axiosInstance.put(`/authors/${id}`, {
-        authorFirstName: firstName,
-        authorLastName: lastName,
-        authorDateOfBirth: dob,
-      });
-      setAuthors(
-        authors.map((author) => (author._id === id ? response.data : author))
-      );
-    } catch (error) {
-      console.error("Error updating author:", error);
-    }
-  };
+  // const handleUpdateAuthor = async (
+  //   id: string,
+  //   firstName: string,
+  //   lastName: string,
+  //   dob?: string
+  // ) => {
+  //   try {
+  //     const response = await axiosInstance.put(`/authors/${id}`, {
+  //       authorFirstName: firstName,
+  //       authorLastName: lastName,
+  //       authorDateOfBirth: dob,
+  //     });
+  //     setAuthors(
+  //       authors.map((author) => (author._id === id ? response.data : author))
+  //     );
+  //   } catch (error) {
+  //     console.error("Error updating author:", error);
+  //   }
+  // };
 
-  const handleUpdateBook = async (
-    id: string,
-    title: string,
-    authorId: string,
-    categoryId: string,
-    photo?: string
-  ) => {
-    try {
-      const response = await axiosInstance.put(`/books/${id}`, {
-        title,
-        photo,
-        authorId,
-        categoryId,
-      });
-      setBooks(books.map((book) => (book._id === id ? response.data : book)));
-    } catch (error) {
-      console.error("Error updating book:", error);
-    }
-  };
+  // const handleUpdateBook = async (
+  //   id: string,
+  //   title: string,
+  //   authorId: string,
+  //   categoryId: string,
+  //   photo?: string
+  // ) => {
+  //   try {
+  //     const response = await axiosInstance.put(`/books/${id}`, {
+  //       title,
+  //       photo,
+  //       authorId,
+  //       categoryId,
+  //     });
+  //     setBooks(books.map((book) => (book._id === id ? response.data : book)));
+  //   } catch (error) {
+  //     console.error("Error updating book:", error);
+  //   }
+  // };
 
   const handleDeleteCategory = async (id: string) => {
     try {

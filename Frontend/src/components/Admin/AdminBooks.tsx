@@ -104,7 +104,7 @@ export default function AdminBooks() {
       }
    }
 
-   const handlePostSubmit = (e: React.FormEvent) => {
+   const handlePostSubmit = () => {
       console.log(addedBook);
       axios.post('http://localhost:3100/books', addedBook)
       .then ((res) => {
@@ -147,7 +147,7 @@ export default function AdminBooks() {
     }
   };
 
-   const handleUpdateSubmit = (id: string, e: React.FormEvent) => {
+   const handleUpdateSubmit = (id: string) => {
     if(currentBook){
       console.log(currentBook)
       axios.put(`http://localhost:3100/books/${id}`, currentBook)
@@ -256,7 +256,7 @@ export default function AdminBooks() {
     <form 
       className='container rounded border bg-light' 
       id='updateForm'
-      onSubmit={(e) => {handlePostSubmit(e)}}
+      onSubmit={() => {handlePostSubmit()}}
     >
       <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" id="two" className="bi bi-x-octagon-fill" viewBox="0 0 16 16"
       onClick={() => setShowAddingForm(false)}>
@@ -367,7 +367,7 @@ export default function AdminBooks() {
               <input type="text" onChange={handleInputChange} value={currentBook.photo} className="form-control bg-Secondary text-dark" id="colFormLabelLg" placeholder="Image-URL" name='photo'/>
           </div> 
 
-          <button type="button" onClick={(e) => {handleUpdateSubmit(currentBook._id, e)}} className="btn btn-outline-primary">Save Changes</button>
+          <button type="button" onClick={() => {handleUpdateSubmit(currentBook._id)}} className="btn btn-outline-primary">Save Changes</button>
         </form>
       </div>    
     }

@@ -58,6 +58,8 @@ const CategoriesSlider: React.FC = () => {
   }, []);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    //change here
+    event.preventDefault()
     setValue(newValue);
   };
 
