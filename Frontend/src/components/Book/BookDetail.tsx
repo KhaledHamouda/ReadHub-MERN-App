@@ -216,6 +216,10 @@ const BookDetail = () => {
 
       setRating(newRating);
       setUserBook((prev: any) => ({ ...prev, rating: newRating }));
+
+      // Dynamically change the book state to "Read"
+      await handleStateChange("Read");
+
       alert("Rating submitted successfully!");
 
       const reviewsResponse = await axios.get(
