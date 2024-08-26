@@ -132,7 +132,6 @@ const AuthorDetail = () => {
     }
 
     try {
-      // Update the rating in the database
       await axios.post(
         `http://localhost:3100/userbook/rating`,
         {
@@ -143,13 +142,21 @@ const AuthorDetail = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      // Fetch updated book data from backend
+      await axios.post(
+        `http://localhost:3100/userbook/state`,
+        {
+          userId,
+          bookId,
+          state: "Read",
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
       const booksResponse = await axios.get<Book[]>(
         `http://localhost:3100/authors/${id}/books`
       );
       const updatedBooks = booksResponse.data;
 
-      // Update the local state
       setBooks((prevBooks) =>
         prevBooks.map((book) =>
           book._id === bookId
@@ -162,12 +169,13 @@ const AuthorDetail = () => {
                 ratingCount:
                   updatedBooks.find((b) => b._id === bookId)?.ratingCount ||
                   book.ratingCount,
+                state: "Read",
               }
             : book
         )
       );
 
-      alert("Rating submitted successfully!");
+      alert("Rating submitted successfully and book state updated to 'Read'!");
     } catch (error) {
       console.error("Failed to update rating", error);
     }
