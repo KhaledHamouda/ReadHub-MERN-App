@@ -9,8 +9,7 @@ interface Author {
   photo: string;
   authorFirstName: string;
   authorLastName: string;
-  authorPhoto:any;
-
+  authorPhoto: any;
 }
 
 const AuthorList: React.FC = () => {

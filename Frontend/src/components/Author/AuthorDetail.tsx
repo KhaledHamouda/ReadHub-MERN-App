@@ -5,6 +5,7 @@ import { jwtDecode } from "jwt-decode";
 import { FaStar } from "react-icons/fa";
 import "./AuthorDetail.css";
 import Navbar from "../homeComponents/Navbar";
+import { Link } from "react-router-dom";
 
 interface DecodedToken {
   id: string;
@@ -131,6 +132,7 @@ const AuthorDetail = () => {
     }
 
     try {
+      // Update the rating in the database
       await axios.post(
         `http://localhost:3100/userbook/rating`,
         {
@@ -141,18 +143,31 @@ const AuthorDetail = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
+      // Fetch updated book data from backend
+      const booksResponse = await axios.get<Book[]>(
+        `http://localhost:3100/authors/${id}/books`
+      );
+      const updatedBooks = booksResponse.data;
+
+      // Update the local state
       setBooks((prevBooks) =>
         prevBooks.map((book) =>
-          book._id === bookId ? { ...book, userRating: newRating } : book
+          book._id === bookId
+            ? {
+                ...book,
+                userRating: newRating,
+                averageRating:
+                  updatedBooks.find((b) => b._id === bookId)?.averageRating ||
+                  book.averageRating,
+                ratingCount:
+                  updatedBooks.find((b) => b._id === bookId)?.ratingCount ||
+                  book.ratingCount,
+              }
+            : book
         )
       );
 
       alert("Rating submitted successfully!");
-
-      const booksResponse = await axios.get<Book[]>(
-        `http://localhost:3100/authors/${id}/books`
-      );
-      setBooks(booksResponse.data);
     } catch (error) {
       console.error("Failed to update rating", error);
     }
@@ -200,13 +215,19 @@ const AuthorDetail = () => {
               const averageRating = Number(book.averageRating) || 0;
               return (
                 <div key={book._id} className="book">
-                  <img
-                    src={book.photo}
-                    alt={book.title}
-                    className="book-photo"
-                  />
+                  {/* Wrap the image with Link */}
+                  <Link to={`/book/${book._id}`}>
+                    <img
+                      src={book.photo}
+                      alt={book.title}
+                      className="book-photo"
+                    />
+                  </Link>
                   <div className="book-info">
-                    <h3>{book.title}</h3>
+                    {/* Wrap the title with Link */}
+                    <Link to={`/book/${book._id}`}>
+                      <h3>{book.title}</h3>
+                    </Link>
 
                     <div className="book-state-rating">
                       <div className="book-state">
@@ -270,5 +291,4 @@ const AuthorDetail = () => {
     </div>
   );
 };
-
 export default AuthorDetail;

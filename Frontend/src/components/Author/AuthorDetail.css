@@ -94,6 +94,10 @@
   margin-bottom: 10px;
 }
 
+.book-info a {
+  text-decoration: none;
+}
+
 .book-state-rating {
   display: flex;
   align-items: center;
@@ -140,6 +144,7 @@
   }
 }
 
+/* Media Queries for Responsiveness */
 @media (max-width: 768px) {
   .author-header {
     flex-direction: column;
@@ -147,6 +152,8 @@
   }
 
   .author-photo {
+    width: 200px;
+    height: 200px;
     margin-bottom: 20px;
   }
 
@@ -154,16 +161,75 @@
     text-align: center;
   }
 
+  .author-info h1 {
+    font-size: 1.8rem;
+  }
+
+  .author-info p {
+    font-size: 1rem;
+  }
+
+  .author-books-section {
+    padding: 15px;
+  }
+
   .book {
     flex-direction: column;
     align-items: center;
+    padding: 15px;
   }
 
   .book-photo {
-    margin-bottom: 20px;
+    width: 120px;
+    height: 180px;
+    margin-bottom: 15px;
   }
 
   .book-info {
     text-align: center;
+  }
+
+  .book-info h3 {
+    font-size: 1.2rem;
+  }
+
+  .book-state select {
+    width: 100%;
+    text-align: center;
+  }
+
+  .book-state-rating {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .book-rating .star {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .author-header {
+    padding: 0 10px;
+  }
+
+  .author-info h1 {
+    font-size: 1.6rem;
+  }
+
+  .author-info p {
+    font-size: 0.9rem;
+  }
+
+  .author-books-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .book-info h3 {
+    font-size: 1rem;
+  }
+
+  .book-rating .star {
+    font-size: 1.2rem;
   }
 }
