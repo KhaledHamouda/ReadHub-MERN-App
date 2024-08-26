@@ -17,8 +17,8 @@ interface Book {
   authorName: string;
   categoryName: string;
   description: string;
-  authorId:any;
-  categoryId:any;
+  authorId: any;
+  categoryId: any;
 }
 
 interface Review {
@@ -44,7 +44,7 @@ const BookDetail = () => {
   const [reviewError, setReviewError] = useState<string | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [reviewsLoading, setReviewsLoading] = useState<boolean>(true);
-  const [reviewsError, setReviewsError] = useState<string | null>(null);
+  // const [reviewsError, setReviewsError] = useState<string | null>(null);
   const [averageRating, setAverageRating] = useState<number>(0);
   const [ratingCount, setRatingCount] = useState<number>(0);
 
@@ -91,30 +91,30 @@ const BookDetail = () => {
 
     fetchBookDetails();
   }, [id, token, userId]);
-
   useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:3100/userbook/reviews/${id}`
-        );
-        const reviewsData = response.data;
-        setReviews(reviewsData);
+    const fetchReviews = () => {
+      axios
+        .get(`http://localhost:3100/userbook/reviews/${id}`)
+        .then((response) => {
+          const reviewsData = response.data;
+          setReviews(reviewsData);
 
-        const totalRating = reviewsData.reduce(
-          (sum: number, review: Review) => sum + review.rating,
-          0
-        );
-        const avgRating =
-          reviewsData.length > 0 ? totalRating / reviewsData.length : 0;
+          const totalRating = reviewsData.reduce(
+            (sum: number, review: Review) => sum + review.rating,
+            0
+          );
+          const avgRating =
+            reviewsData.length > 0 ? totalRating / reviewsData.length : 0;
 
-        setAverageRating(avgRating);
-        setRatingCount(reviewsData.length);
-      } catch (error) {
-        setReviewsError("Error fetching reviews");
-      } finally {
-        setReviewsLoading(false);
-      }
+          setAverageRating(avgRating);
+          setRatingCount(reviewsData.length);
+        })
+        .catch(() => {
+          setReviews([]);
+        })
+        .finally(() => {
+          setReviewsLoading(false);
+        });
     };
 
     fetchReviews();
@@ -322,13 +322,10 @@ const BookDetail = () => {
               ))}
             </div>
           </div>
-
           <div className="reviews-section">
             <h2>Reviews</h2>
             {reviewsLoading ? (
               <p>Loading reviews...</p>
-            ) : reviewsError ? (
-              <p>{reviewsError}</p>
             ) : reviews.length > 0 ? (
               reviews.map((review) => (
                 <div key={review._id} className="review">
