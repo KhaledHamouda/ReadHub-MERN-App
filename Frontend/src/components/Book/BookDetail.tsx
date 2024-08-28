@@ -5,6 +5,10 @@ import { jwtDecode } from "jwt-decode";
 import "./BookDetail.css";
 import { FaStar } from "react-icons/fa";
 import Navbar from "../homeComponents/Navbar";
+import { useSelector } from "react-redux";
+import { createTheme,ThemeProvider } from "@mui/material";
+
+
 
 interface DecodedToken {
   id: string;
@@ -33,6 +37,7 @@ interface Review {
 }
 
 const BookDetail = () => {
+  const { mode } = useSelector((state: any) => state.DataReducer);
   const { id } = useParams<{ id: string }>();
   const [book, setBook] = useState<Book | null>(null);
   const [userBook, setUserBook] = useState<any>(null);
@@ -47,6 +52,16 @@ const BookDetail = () => {
   const [reviewsError, setReviewsError] = useState<string | null>(null);
   const [averageRating, setAverageRating] = useState<number>(0);
   const [ratingCount, setRatingCount] = useState<number>(0);
+
+  const theme = createTheme({
+    palette: {
+        mode: mode || 'light',
+        background: {
+            default: mode === 'light' ? '#fff' : '#121212',
+            paper: mode === 'light' ? '#fff' : '#1e1e1e', 
+        },
+    },
+});
 
   const token = sessionStorage.getItem("userToken");
   let userId: string | null = null;
@@ -250,6 +265,8 @@ const BookDetail = () => {
     return <p>Book not found.</p>;
   }
   return (
+    <ThemeProvider theme={theme}>
+
     <div>
       <Navbar />
       <div className="book-detail">
@@ -295,6 +312,9 @@ const BookDetail = () => {
                 <option value="Currently Reading">Currently Reading</option>
                 <option value="Read">Read</option>
               </select>
+              <button className="submit-button" onClick={() => handleStateChange("Want to Read")}>
+              ADD THE BOOK
+            </button>
             </div>
 
             <div>
@@ -353,6 +373,7 @@ const BookDetail = () => {
         </div>
       </div>
     </div>
+    </ThemeProvider>
   );
 };
 

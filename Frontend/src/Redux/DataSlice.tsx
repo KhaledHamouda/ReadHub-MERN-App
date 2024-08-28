@@ -1,7 +1,7 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
+import axiosInstance from '../axios';
 
-// Define the state type
-// Add other properties as needed
+// Define the state types
 interface UserData {
   img?: string;
   id?: string;
@@ -15,7 +15,27 @@ interface DataState {
   loginState: boolean;
   refreshAdmin: number;
   authState: 'signup' | 'login';
+  searchResults: {
+    books: any[];
+    categories: any[];
+    authors: any[];
+  };
+  searchStatus: 'idle' | 'loading' | 'succeeded' | 'failed';
+  searchError: string | null;
 }
+
+// Async thunk to fetch search results
+export const fetchSearchResults = createAsyncThunk<any, string>(
+  'data/fetchSearchResults',
+  async (query: string) => {
+    const response = await axiosInstance.get(`/searchApi/search?q=${query}`);
+    console.log('Books:', response.data.books);
+console.log('Categories:', response.data.categories);
+console.log('Authors:', response.data.authors);
+
+    return response.data;
+  }
+);
 
 // Define the initial state
 const initialState: DataState = {
@@ -25,7 +45,14 @@ const initialState: DataState = {
   openSearchDialog: false,
   loginState: (sessionStorage.getItem('loginState') === 'true') || false,
   refreshAdmin: 0,
-  authState: 'signup', // Default to 'signup'
+  authState: 'signup',
+  searchResults: {
+    books: [],
+    categories: [],
+    authors: []
+  },
+  searchStatus: 'idle',
+  searchError: null,
 };
 
 const DataSlice = createSlice({
@@ -38,7 +65,6 @@ const DataSlice = createSlice({
     },
     setUserData: (state, action: PayloadAction<UserData>) => {
       state.userData = action.payload;
-      // sessionStorage.setItem('img', action.payload.img || '');
       sessionStorage.setItem('id', action.payload.id || '');
     },
     setOpenDialog: (state, action: PayloadAction<boolean>) => {
@@ -60,6 +86,21 @@ const DataSlice = createSlice({
     switchToSignup: (state) => {
       state.authState = 'signup';
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchSearchResults.pending, (state) => {
+        state.searchStatus = 'loading';
+        state.searchError = null;
+      })
+      .addCase(fetchSearchResults.fulfilled, (state, action: PayloadAction<any>) => {
+        state.searchResults = action.payload;
+        state.searchStatus = 'succeeded';
+      })
+      .addCase(fetchSearchResults.rejected, (state, action) => {
+        state.searchStatus = 'failed';
+        state.searchError = action.error.message || 'Failed to fetch search results';
+      });
   },
 });
 

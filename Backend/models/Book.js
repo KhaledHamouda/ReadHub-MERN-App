@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const AutoIncrement = require("mongoose-sequence")(mongoose);
+const mongoose = require('mongoose');
+const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 const bookSchema = new mongoose.Schema({
     idShow: { 
@@ -36,7 +36,4 @@ const bookSchema = new mongoose.Schema({
 });
 bookSchema.plugin(AutoIncrement, { inc_field: "idShow" });
 
-module.exports = mongoose.model('Book', bookSchema)
-
-
-
+module.exports = mongoose.model('Book', bookSchema);

@@ -3,6 +3,9 @@ import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 import "./CategoryDetail.css";
 import Navbar from "../homeComponents/Navbar";
+import { createTheme, ThemeProvider} from '@mui/material';
+import { useSelector } from "react-redux";
+
 
 interface Author {
   authorFirstName: string;
@@ -22,6 +25,7 @@ interface Category {
 }
 
 const CategoryDetail = () => {
+  const { mode } = useSelector((state: any) => state.DataReducer);
   const { id } = useParams<{ id: string }>();
   const [category, setCategory] = useState<Category | null>(null);
   const [loading, setLoading] = useState(true);
@@ -47,6 +51,16 @@ const CategoryDetail = () => {
     fetchCategoryDetails();
   }, [id]);
 
+  const theme = createTheme({
+    palette: {
+        mode: mode || 'light',
+        background: {
+            default: mode === 'light' ? '#fff' : '#121212',
+            paper: mode === 'light' ? '#fff' : '#1e1e1e', 
+        },
+    },
+});
+
   if (loading) {
     return <p>Loading category details...</p>;
   }
@@ -69,6 +83,8 @@ const CategoryDetail = () => {
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   return (
+    <ThemeProvider theme={theme}>
+
     <div>
       <Navbar />
       <div className="category-detail">
@@ -117,6 +133,7 @@ const CategoryDetail = () => {
         </nav>
       </div>
     </div>
+    </ThemeProvider>
   );
 };
 

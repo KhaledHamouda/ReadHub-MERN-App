@@ -123,4 +123,29 @@ route.delete("/:id", async (req, res) => {
   }
 });
 
+// Handle search books by title
+route.get('/search', async (req, res) => {
+  try {
+    console.log("iam now right")
+    const { query } = req.query;
+
+    if (!query || typeof query !== 'string') {
+      return res.status(400).json({ error: 'Search query is required and must be a string' });
+    }
+
+    // Search for books by title or author using regex
+    const books = await Book.find({
+      $or: [
+        { title: { $regex: new RegExp(query, 'i') } },
+        { authorShow: { $regex: new RegExp(query, 'i') } } // Assuming authorShow is a field in your model
+      ]
+    });
+
+    res.json(books);
+  } catch (error) {
+    console.error('Error searching for books:', error);
+    res.status(500).json({ error: 'An error occurred while searching for books.' });
+  }
+});
+
 module.exports = route;

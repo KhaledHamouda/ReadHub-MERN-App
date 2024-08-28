@@ -7,35 +7,15 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import Typography from '@mui/material/Typography';
-import { useDispatch, useSelector } from 'react-redux';
-import { setOpenDialog, setOpenSearchDialog } from '../Redux/DataSlice';
-import { Navigate, useNavigate } from 'react-router-dom';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import ErrorIcon from '@mui/icons-material/Error';
-import SearchBar from '../components/homeComponents/SearchBar';
+import { useDispatch } from 'react-redux';
+import { setOpenSearchDialog, fetchSearchResults } from '../Redux/DataSlice';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
+import SearchBar from '../components/homeComponents/SearchBar';
 
-// Define the shape of your Redux state
-interface RootState {
-  DataReducer: {
-    loginState: boolean;
-  };
-}
-
-// Define props for MsgDialogs component
-interface MsgDialogsProps {
-  title: string;
-  msg: string;
-  state: number;
-  navigation?: number;
-}
-
-// Styled components
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
     padding: theme.spacing(2),
@@ -75,50 +55,12 @@ const BootstrapDialogTitle: React.FC<BootstrapDialogTitleProps> = (props) => {
   );
 };
 
-export const MsgDialogs: React.FC<MsgDialogsProps> = ({ title, msg, state, navigation }) => {
-  const [open, setOpen] = useState(true);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const handleClose = () => {
-    setOpen(false);
-    dispatch(setOpenDialog(false));
-    if (navigation === 1) {
-      navigate('/');
-    }
-  };
-
-  return (
-    <BootstrapDialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
-      <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-        {title}
-      </BootstrapDialogTitle>
-      <DialogContent dividers>
-        <Typography gutterBottom sx={{ fontSize: '18px', display: 'flex', alignItems: 'center' }}>
-          {state === 1 ? (
-            <CheckCircleIcon sx={{ color: 'green', fontSize: '30px', marginRight: '8px' }} />
-          ) : (
-            <ErrorIcon sx={{ color: 'red', fontSize: '30px', marginRight: '8px' }} />
-          )}
-          {msg}
-        </Typography>
-      </DialogContent>
-      <DialogActions>
-        <Button autoFocus onClick={handleClose}>
-          Close
-        </Button>
-      </DialogActions>
-    </BootstrapDialog>
-  );
-};
-
 export const SearchDialog: React.FC = () => {
   const [value, setValue] = useState<'Books' | 'Categories' | 'Authors'>('Books');
-  const [open, setOpen] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
   const dispatch = useDispatch();
 
   const handleClose = () => {
-    setOpen(false);
     dispatch(setOpenSearchDialog(false));
   };
 
@@ -126,8 +68,13 @@ export const SearchDialog: React.FC = () => {
     setValue(event.target.value as 'Books' | 'Categories' | 'Authors');
   };
 
+  const handleSearch = () => {
+    // dispatch(fetchSearchResults(`${value}:${searchQuery}`));
+    handleClose();
+  };
+
   return (
-    <BootstrapDialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+    <BootstrapDialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={true}>
       <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
         Search
       </BootstrapDialogTitle>
@@ -140,9 +87,10 @@ export const SearchDialog: React.FC = () => {
             <FormControlLabel value="Authors" control={<Radio />} label="Authors" />
           </RadioGroup>
         </FormControl>
-        <SearchBar type={value} action={handleClose} />
+        <SearchBar query={searchQuery} onQueryChange={setSearchQuery} />
       </DialogContent>
       <DialogActions>
+        <Button onClick={handleSearch}>Search</Button>
         <Button autoFocus onClick={handleClose}>
           Close
         </Button>
@@ -151,27 +99,4 @@ export const SearchDialog: React.FC = () => {
   );
 };
 
-interface PrivateRouteProps {
-  children: React.ReactNode;
-}
-
-export const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
-  const loginState = useSelector((state: RootState) => state.DataReducer.loginState);
-
-  if (!loginState) {
-    return (
-      <MsgDialogs
-        title="Access Denied"
-        msg="You can't open this page before login!"
-        state={2}
-        navigation={1}
-      />
-    );
-  }
-
-  return <>{children}</>;
-};
-
-export const PrivateRoute2: React.FC = () => {
-  return <Navigate to="/" />;
-};
+export default SearchBar;

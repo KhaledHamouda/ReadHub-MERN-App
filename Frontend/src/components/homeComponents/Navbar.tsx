@@ -39,6 +39,7 @@ import { scroller } from "react-scroll";
 import { useNavigate } from "react-router";
 import SearchIcon from "@mui/icons-material/Search";
 import { SearchDialog } from "../../assets/SearchDialog";
+import SearchBar from "./SearchBar"
 
 // Styled components
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
@@ -69,6 +70,8 @@ const Navbar: React.FC = () => {
   const { loginState } = useSelector((state: any) => state.DataReducer);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState('');
+
   const pages = ["Home", "Books", "Categories", "Authors"];
   console.log(`loginstate: ${loginState}`);
   const settings = loginState
@@ -81,6 +84,12 @@ const Navbar: React.FC = () => {
   const drawerWidth = 240;
 
   const [open, setOpen] = useState(false);
+
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      navigate(`/books?search=${searchQuery.trim()}`);
+    }
+  };
 
   const handleDrawerClose = (page: string) => {
     setOpen(false);
@@ -315,6 +324,18 @@ const Navbar: React.FC = () => {
         </Drawer>
       </Container>
 
+      {/* <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <input
+            type="text"
+            placeholder="Search books..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            style={{ padding: '8px', marginRight: '8px' }}
+          />
+          <IconButton color="inherit" onClick={handleSearch}>
+            <SearchIcon />
+          </IconButton>
+        </Box> */}
       {openSearchDialog && <SearchDialog />}
     </StyledAppBar>
   );

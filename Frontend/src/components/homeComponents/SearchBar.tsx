@@ -4,6 +4,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 type SearchBarProps = {
   type: "Books" | "Categories" | "Authors";
@@ -74,24 +75,22 @@ const SearchBar: React.FC<SearchBarProps> = (props) => {
   const [data, setData] = useState<Data[]>([]);
   const navigate = useNavigate();
 
-  const navigateTo = (value: string) => {
-    props.action();
-    if (props.type === "Books") {
-      navigate(`/book/${value}`);
-    } else if (props.type === "Categories") {
-      navigate(`/category/${value}`);
-    } else {
-      navigate(`/author/${value}`);
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3100/${props.type.toLowerCase()}`);
+      setData(response.data);
+      sessionStorage.setItem(`${props.type}Data`, JSON.stringify(response.data));
+    } catch (error) {
+      console.error('Error fetching data:', error);
     }
   };
 
   useEffect(() => {
-    if (props.type === "Books") {
-      setData(JSON.parse(sessionStorage.getItem("BooksData") || "[]"));
-    } else if (props.type === "Categories") {
-      setData(JSON.parse(sessionStorage.getItem("CategoriesData") || "[]"));
+    const storedData = JSON.parse(sessionStorage.getItem(`${props.type}Data`) || "[]");
+    if (storedData.length > 0) {
+      setData(storedData);
     } else {
-      setData(JSON.parse(sessionStorage.getItem("AuthorsData") || "[]"));
+      fetchData();
     }
   }, [props.type]);
 
@@ -133,7 +132,7 @@ const SearchBar: React.FC<SearchBarProps> = (props) => {
           {filteredData.slice(0, 15).map((value) => (
             <h5
               className="dataItem"
-              onClick={() => navigateTo(value._id)}
+              onClick={() => navigate(value._id)}
               key={value._id}
             >
               <p>
@@ -152,3 +151,50 @@ const SearchBar: React.FC<SearchBarProps> = (props) => {
 };
 
 export default SearchBar;
+
+
+// components/SearchBar.tsx
+
+// import React, { useState } from 'react';
+// import { TextField, Button } from '@mui/material';
+// import axiosInstance from '../../axios';
+
+// const SearchBar: React.FC = () => {
+//   const [query, setQuery] = useState('');
+//   const [results, setResults] = useState<any[]>([]);
+
+//   const handleSearch = async () => {
+//     try {
+//       const response = await axiosInstance.get(`/books/search`, {
+//         params: { query }
+//       });
+//       setResults(response.data);
+//     } catch (error) {
+//       console.error('Error fetching search results:', error);
+//     }
+//   };
+
+//   return (
+//     <div>
+//       <TextField
+//         label="Search for books"
+//         variant="outlined"
+//         value={query}
+//         onChange={(e) => setQuery(e.target.value)}
+//       />
+//       <Button variant="contained" color="primary" onClick={handleSearch}>
+//         Search
+//       </Button>
+//       <div>
+//         {results.map((book) => (
+//           <div key={book._id}>
+//             <h3>{book.title}</h3>
+//             <p>{book.author}</p>
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default SearchBar;
