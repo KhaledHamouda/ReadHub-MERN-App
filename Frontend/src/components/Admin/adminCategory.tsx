@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./adminCategory.css";
+import axiosInstance from "../../axios";
 
 interface Category {
   categoryId: number;
@@ -13,8 +13,8 @@ const AdminCategory: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3100/categories")
+    axiosInstance
+      .get("/categories")
       .then((response) => {
         setCategories(response.data);
       })
@@ -27,11 +27,11 @@ const AdminCategory: React.FC = () => {
     const newName = prompt("Enter the new name for the category:");
     if (newName) {
       try {
-        await axios.put(`http://localhost:3100/categories/${id}`, {
+        await axiosInstance.put(`/categories/${id}`, {
           categoryName: newName,
         });
         console.log("Category updated successfully");
-        const response = await axios.get("http://localhost:3100/categories");
+        const response = await axiosInstance.get("/categories");
         setCategories(response.data);
       } catch (error) {
         console.error("There was an error updating the category!", error);
@@ -42,9 +42,9 @@ const AdminCategory: React.FC = () => {
   const handleDelete = async (id: number) => {
     if (window.confirm("Are you sure you want to delete this category?")) {
       try {
-        await axios.delete(`http://localhost:3100/categories/${id}`);
+        await axiosInstance.delete(`/categories/${id}`);
         console.log("Category deleted successfully");
-        const response = await axios.get("http://localhost:3100/categories");
+        const response = await axiosInstance.get("/categories");
         setCategories(response.data);
       } catch (error) {
         console.error("There was an error deleting the category!", error);
@@ -56,11 +56,11 @@ const AdminCategory: React.FC = () => {
     const newName = prompt("Enter the name for the new category:");
     if (newName) {
       try {
-        await axios.post("http://localhost:3100/categories", {
+        await axiosInstance.post("/categories", {
           categoryName: newName,
         });
         console.log("New category added successfully");
-        const response = await axios.get("http://localhost:3100/categories");
+        const response = await axiosInstance.get("/categories");
         setCategories(response.data);
       } catch (error) {
         console.error("There was an error adding the new category!", error);

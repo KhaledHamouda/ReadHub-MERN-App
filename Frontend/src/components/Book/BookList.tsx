@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+// import axios from "axios";
 import { Link } from "react-router-dom";
 import "./BookList.css";
 import Navbar from "../homeComponents/Navbar";
+import axiosInstance from "../../axios";
+
 
 interface Book {
   _id: string;
@@ -23,7 +25,7 @@ const BookList: React.FC = () => {
       setError(null);
 
       try {
-        const response = await axios.get<Book[]>("http://localhost:3100/books");
+        const response = await axiosInstance.get<Book[]>("/books");
         setBooks(response.data);
       } catch (error) {
         console.error("Error fetching books:", error);

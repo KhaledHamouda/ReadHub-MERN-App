@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import "./CategoryList.css";
 import NavBar from "../homeComponents/Navbar";
+import axiosInstance from "../../axios";
 
 interface Category {
   categoryId: number;
@@ -20,9 +20,7 @@ const CategoryList: React.FC = () => {
       setError(null);
 
       try {
-        const response = await axios.get<Category[]>(
-          "http://localhost:3100/categories"
-        );
+        const response = await axiosInstance.get<Category[]>("/categories");
         setCategories(response.data);
       } catch (error) {
         console.error("Error fetching categories:", error);

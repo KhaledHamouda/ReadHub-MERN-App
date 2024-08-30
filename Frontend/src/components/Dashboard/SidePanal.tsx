@@ -66,7 +66,7 @@ const SidePanal: React.FC<SidePanalProps> = ({ selectedTab, onTabChange }) => {
                 orientation="vertical"
                 variant="scrollable"
                 value={selectedTab}
-                onChange={(event, newValue) => onTabChange(newValue)}
+                onChange={(_, newValue) => onTabChange(newValue)}
                 aria-label="Vertical tabs example"
                 sx={{
                     background: mode === 'light' ? "rgb(55, 149, 189)" : "rgba(38, 40, 51, .5)",

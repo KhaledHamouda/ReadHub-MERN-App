@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { useParams } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { FaStar } from "react-icons/fa";
 import "./AuthorDetail.css";
 import Navbar from "../homeComponents/Navbar";
 import { Link } from "react-router-dom";
+import axiosInstance from "../../axios";
 
 interface DecodedToken {
   id: string;
@@ -51,13 +51,13 @@ const AuthorDetail = () => {
   useEffect(() => {
     const fetchAuthorDetails = async () => {
       try {
-        const response = await axios.get<Author>(
-          `http://localhost:3100/authors/${id}`
+        const response = await axiosInstance.get<Author>(
+          `/authors/${id}`
         );
         setAuthor(response.data);
 
-        const booksResponse = await axios.get<Book[]>(
-          `http://localhost:3100/authors/${id}/books`
+        const booksResponse = await axiosInstance.get<Book[]>(
+          `/authors/${id}/books`
         );
         const booksData = booksResponse.data;
 
@@ -65,8 +65,8 @@ const AuthorDetail = () => {
           const booksWithState = await Promise.all(
             booksData.map(async (book) => {
               try {
-                const userBookResponse = await axios.get(
-                  `http://localhost:3100/userbook/${userId}/books?bookId=${book._id}`,
+                const userBookResponse = await axiosInstance.get(
+                  `/userbook/${userId}/books?bookId=${book._id}`,
                   { headers: { Authorization: `Bearer ${token}` } }
                 );
                 return {
@@ -105,8 +105,8 @@ const AuthorDetail = () => {
     }
 
     try {
-      await axios.post(
-        `http://localhost:3100/userbook/state`,
+      await axiosInstance.post(
+        `/userbook/state`,
         {
           userId,
           bookId,
@@ -132,8 +132,8 @@ const AuthorDetail = () => {
     }
 
     try {
-      await axios.post(
-        `http://localhost:3100/userbook/rating`,
+      await axiosInstance.post(
+        `/userbook/rating`,
         {
           userId,
           bookId,
@@ -142,8 +142,8 @@ const AuthorDetail = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      await axios.post(
-        `http://localhost:3100/userbook/state`,
+      await axiosInstance.post(
+        `/userbook/state`,
         {
           userId,
           bookId,
@@ -152,8 +152,8 @@ const AuthorDetail = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      const booksResponse = await axios.get<Book[]>(
-        `http://localhost:3100/authors/${id}/books`
+      const booksResponse = await axiosInstance.get<Book[]>(
+        `/authors/${id}/books`
       );
       const updatedBooks = booksResponse.data;
 

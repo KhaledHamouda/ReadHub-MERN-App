@@ -1,26 +1,26 @@
 import React, { useState } from "react";
 import "./loginAdmin.css";
-import axios from "../../axios";
+import axiosInstance from "../../axios";
+import { useNavigate } from "react-router-dom";
 
-interface AdminLoginProps {
-  onLoginSuccess: (admin: boolean, token: string) => void;
-}
 
-export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
+export function AdminLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate()
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    axios
+    axiosInstance
       .post("/users/login", { email, password })
       .then((res) => {
         const { admin, token } = res.data;
         if (admin) {
           sessionStorage.setItem("userToken", token);
           sessionStorage.setItem("admin", admin.toString());
-          onLoginSuccess(admin, token);
+          
           alert("You are successfully logged in as Admin");
+          navigate('/admin/categories')
         } else {
           alert("Access denied: You are not an admin.");
         }

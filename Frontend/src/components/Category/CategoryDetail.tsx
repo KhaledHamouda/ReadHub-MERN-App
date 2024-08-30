@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 import "./CategoryDetail.css";
 import Navbar from "../homeComponents/Navbar";
+import axiosInstance from "../../axios";
 
 interface Author {
   authorFirstName: string;
@@ -33,8 +33,8 @@ const CategoryDetail = () => {
   useEffect(() => {
     const fetchCategoryDetails = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:3100/categories/${id}`
+        const response = await axiosInstance.get(
+          `/categories/${id}`
         );
         setCategory(response.data);
       } catch (error) {

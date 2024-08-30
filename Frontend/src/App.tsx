@@ -1,6 +1,3 @@
-import { useState } from "react";
-// import { useSelector } from "react-redux";
-
 import {
   BrowserRouter as Router,
   Route,
@@ -8,7 +5,6 @@ import {
   Navigate,
 } from "react-router-dom";
 import { AdminLogin } from "./components/Admin/AdminLogin";
-import { AdminPanel } from "./components/Admin/AdminPanal";
 import AdminBooks from "./components/Admin/AdminBooks";
 import AdminCategory from "./components/Admin/adminCategory";
 import AdminAuthor from "./components/Admin/adminAuthor";
@@ -26,28 +22,16 @@ import AuthorDetail from "./components/Author/AuthorDetail";
 
 
 function App() {
-  const [isAdmin, setIsAdmin] = useState<boolean>(() => {
-    return sessionStorage.getItem("admin") === "true";
-  });
-
-  const handleLoginSuccess = (admin: boolean) => {
-    setIsAdmin(admin);
-
-    window.location.href = "/admin/categories";
-  };
 
   return (
     <Router>
       <Routes>
         <Route path="/home" element={<Home />} />
-        <Route path="/" element={<Home />} />\
-        {/* <Route path="/read" element={<Read />} />
-        <Route path="/want-to-read" element={<WantToRead />} /> */}
+        <Route path="/" element={<Home />} />
 
-        <Route
-          path="/admin"
-          element={<AdminLogin onLoginSuccess={handleLoginSuccess} />}
-        />
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/admin"element={<AdminLogin />} />
 
         <Route path="/books" element={<BookList />} />
         <Route path="/book/:id" element={<BookDetail />} />
@@ -61,13 +45,10 @@ function App() {
         <Route path="/author/:id" element={<AuthorDetail />} />
         <Route path="/category/:id" element={<CategoryDetail />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route
+        {/* <Route
           path="/admin/*"
           element={isAdmin ? <AdminPanel /> : <Navigate to="/admin" />}
-        />
-        <Route path="/login" element={<LoginForm />} />
-        {/* {authState === 'login' && <Route path="/login" element={<LoginForm />} />} */}
-        <Route path="/signup" element={<SignUp />} />
+          /> */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>

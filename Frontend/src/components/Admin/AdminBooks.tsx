@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import "./AdminBooks.css";
+import axiosInstance from "../../axios";
 
 interface Book {
   _id: string;
@@ -46,7 +46,7 @@ export default function AdminBooks() {
   }, []);
 
     const getCategories = () => {
-      axios.get('http://localhost:3100/categories')
+      axiosInstance.get('/categories')
         .then ((res) => {
           if(res.data){
             setCategories(res.data)
@@ -60,7 +60,7 @@ export default function AdminBooks() {
     } 
 
     const getAuthors = () => {
-      axios.get('http://localhost:3100/authors')
+      axiosInstance.get('/authors')
         .then ((res) => {
           if(res.data){
             setAuthors(res.data)
@@ -74,7 +74,7 @@ export default function AdminBooks() {
     };
 
     const handleDisplay = () => {
-        axios.get('http://localhost:3100/books')
+        axiosInstance.get('/books')
         .then ((res) => {
           if(res.data){
             setBooks(res.data)
@@ -90,7 +90,7 @@ export default function AdminBooks() {
     const handleDelete = (id: string) => {
       const agree = confirm('Are you want to delete this book ?')
       if(agree){
-        axios.delete(`http://localhost:3100/books/${id}`)
+        axiosInstance.delete(`/books/${id}`)
         .then ((res) => {
           if(res.data){
             handleDisplay();
@@ -106,7 +106,7 @@ export default function AdminBooks() {
 
    const handlePostSubmit = () => {
       console.log(addedBook);
-      axios.post('http://localhost:3100/books', addedBook)
+      axiosInstance.post('/books', addedBook)
       .then ((res) => {
         if(res.data){
           handleDisplay();
@@ -150,7 +150,7 @@ export default function AdminBooks() {
    const handleUpdateSubmit = (id: string) => {
     if(currentBook){
       console.log(currentBook)
-      axios.put(`http://localhost:3100/books/${id}`, currentBook)
+      axiosInstance.put(`/books/${id}`, currentBook)
       .then((res) => {
         if(res){
           handleDisplay();
