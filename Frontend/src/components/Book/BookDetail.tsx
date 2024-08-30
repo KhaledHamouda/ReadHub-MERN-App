@@ -1,10 +1,10 @@
 import { useState, useEffect, ChangeEvent } from "react";
-import axios from "axios";
 import { useParams } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import "./BookDetail.css";
 import { FaStar } from "react-icons/fa";
 import Navbar from "../homeComponents/Navbar";
+import axiosInstance from "../../axios";
 
 interface DecodedToken {
   id: string;
@@ -63,15 +63,15 @@ const BookDetail = () => {
   useEffect(() => {
     const fetchBookDetails = async () => {
       try {
-        const bookResponse = await axios.get(
-          `http://localhost:3100/books/${id}`
+        const bookResponse = await axiosInstance.get(
+          `/books/${id}`
         );
         setBook(bookResponse.data);
 
         if (userId) {
           try {
-            const userBookResponse = await axios.get(
-              `http://localhost:3100/userbook/${userId}/books?bookId=${id}`,
+            const userBookResponse = await axiosInstance.get(
+              `/userbook/${userId}/books?bookId=${id}`,
               { headers: { Authorization: `Bearer ${token}` } }
             );
             setUserBook(userBookResponse.data);
@@ -93,8 +93,8 @@ const BookDetail = () => {
   }, [id, token, userId]);
   useEffect(() => {
     const fetchReviews = () => {
-      axios
-        .get(`http://localhost:3100/userbook/reviews/${id}`)
+      axiosInstance
+        .get(`/userbook/reviews/${id}`)
         .then((response) => {
           const reviewsData = response.data;
           setReviews(reviewsData);
@@ -127,8 +127,8 @@ const BookDetail = () => {
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:3100/userbook/state",
+      const response = await axiosInstance.post(
+        "/userbook/state",
         {
           userId,
           bookId: id,
@@ -158,8 +158,8 @@ const BookDetail = () => {
     }
 
     try {
-      await axios.post(
-        "http://localhost:3100/userbook/review",
+      await axiosInstance.post(
+        "/userbook/review",
         {
           userId,
           bookId: id,
@@ -177,8 +177,8 @@ const BookDetail = () => {
       }));
       setReview("");
 
-      const reviewsResponse = await axios.get(
-        `http://localhost:3100/userbook/reviews/${id}`
+      const reviewsResponse = await axiosInstance.get(
+        `/userbook/reviews/${id}`
       );
       setReviews(reviewsResponse.data);
 
@@ -204,8 +204,8 @@ const BookDetail = () => {
     }
 
     try {
-      await axios.post(
-        "http://localhost:3100/userbook/rating",
+      await axiosInstance.post(
+        "/userbook/rating",
         {
           userId,
           bookId: id,
@@ -222,8 +222,8 @@ const BookDetail = () => {
 
       alert("Rating submitted successfully!");
 
-      const reviewsResponse = await axios.get(
-        `http://localhost:3100/userbook/reviews/${id}`
+      const reviewsResponse = await axiosInstance.get(
+        `/userbook/reviews/${id}`
       );
       const reviewsData = reviewsResponse.data;
 

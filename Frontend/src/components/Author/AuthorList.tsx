@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import "./AuthorList.css";
 import Navbar from "../homeComponents/Navbar";
+import axiosInstance from "../../axios";
 
 interface Author {
   _id: string;
@@ -25,8 +25,8 @@ const AuthorList: React.FC = () => {
       setError(null);
 
       try {
-        const response = await axios.get<Author[]>(
-          "http://localhost:3100/authors"
+        const response = await axiosInstance.get<Author[]>(
+          "/authors"
         );
         setAuthors(response.data);
       } catch (error) {

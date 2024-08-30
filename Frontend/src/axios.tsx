@@ -1,9 +1,14 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:3100'
+    // baseURL: 'http://localhost:3100',
+    baseURL:'https://readhub-app.netlify.app/.netlify/functions/server'
 });
 export default axiosInstance;
+
+
+
+
 
 // Add a request interceptor to include the token
 // instance.interceptors.request.use(
