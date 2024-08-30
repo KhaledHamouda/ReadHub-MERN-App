@@ -6,6 +6,7 @@ const authorRoutes = require("./routes/authorRouter");
 const categoryRoutes = require("./routes/categoryRouter");
 const userBookRoutes = require("./routes/userBookRouter");
 const cors = require("cors");
+const serverless = require("serverless-http");
 
 connectDb = require("./config/dbConnection");
 
@@ -42,3 +43,6 @@ const host = process.env.HOST || "localhost";
 app.listen(port, host, () => {
   console.log(`Server Running on http://${host}:${port}`);
 });
+
+app.use("/.netlify/functions/app", router);
+module.exports.handler = serverless(app);
