@@ -1,15 +1,15 @@
 require("dotenv").config();
 const express = require("express");
-const booksRoute = require("./routes/bookRouter");
-const userRoutes = require("./routes/userRouter");
-const authorRoutes = require("./routes/authorRouter");
-const categoryRoutes = require("./routes/categoryRouter");
-const userBookRoutes = require("./routes/userBookRouter");
+const booksRoute = require("../routes/bookRouter");
+const userRoutes = require("../routes/userRouter");
+const authorRoutes = require("../routes/authorRouter");
+const categoryRoutes = require("../routes/categoryRouter");
+const userBookRoutes = require("../routes/userBookRouter");
 const cors = require("cors");
 const serverless = require("serverless-http");
 const router = express.Router()
 
-connectDb = require("./config/dbConnection");
+connectDb = require("../config/dbConnection");
 
 // Mongoose connection
 connectDb();
@@ -22,19 +22,19 @@ app.use(cors());
 app.use(express.json());
 
 // Use the books route
-app.use("/books", booksRoute);
+app.use("/.netlify/functions/server/books", booksRoute);
 
 // Use user route
-app.use("/users", userRoutes);
+app.use("/.netlify/functions/server/users", userRoutes);
 
 // Use author and category
-app.use("/authors", authorRoutes);
-app.use("/categories", categoryRoutes);
+app.use("/.netlify/functions/server/authors", authorRoutes);
+app.use("/.netlify/functions/server/categories", categoryRoutes);
 
 // Use the userBook routes
-app.use("/userbook", userBookRoutes);
+app.use("/.netlify/functions/server/userbook", userBookRoutes);
 
-app.get("/", (req, res) => {
+app.get("/.netlify/functions/server", (req, res) => {
   res.send("Hello To goodreads APP !!");
 });
 
@@ -45,9 +45,4 @@ app.listen(port, host, () => {
   console.log(`Server Running on http://${host}:${port}`);
 });
 
-router.get('/',(req,res)=>{
-  res.send('your app is running ....')
-})
-
-app.use("/.netlify/functions/server", router);
 module.exports.handler = serverless(app);
