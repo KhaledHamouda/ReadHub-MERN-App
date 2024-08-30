@@ -25,9 +25,7 @@ const AuthorList: React.FC = () => {
       setError(null);
 
       try {
-        const response = await axiosInstance.get<Author[]>(
-          "/authors"
-        );
+        const response = await axiosInstance.get<Author[]>("/authors");
         setAuthors(response.data);
       } catch (error) {
         console.error("Error fetching authors:", error);
@@ -63,7 +61,7 @@ const AuthorList: React.FC = () => {
               <div key={author._id} className="author-item">
                 <Link to={`/author/${author._id}`}>
                   <img
-                    src={author.photo}
+                    src={author.authorPhoto}
                     alt={`${author.authorFirstName} ${author.authorLastName}`}
                   />
                   <h2>{`${author.authorFirstName} ${author.authorLastName}`}</h2>
