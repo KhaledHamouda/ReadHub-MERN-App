@@ -7,6 +7,7 @@ const categoryRoutes = require("./routes/categoryRouter");
 const userBookRoutes = require("./routes/userBookRouter");
 const cors = require("cors");
 const serverless = require("serverless-http");
+const router = express.Router()
 
 connectDb = require("./config/dbConnection");
 
@@ -44,5 +45,9 @@ app.listen(port, host, () => {
   console.log(`Server Running on http://${host}:${port}`);
 });
 
-app.use("/.netlify/functions/app", router);
+router.get('/',(req,res)=>{
+  res.send('your app is running ....')
+})
+
+app.use("/.netlify/functions/server", router);
 module.exports.handler = serverless(app);
